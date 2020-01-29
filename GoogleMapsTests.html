@@ -28,34 +28,23 @@
         line-height: 30px;
         padding-left: 10px;
       }
-      #button1 {
-        position: absolute;
-        top: 40px;
-        left: 55%;
-        z-index: 5;
-        background-color: #fff;
-        text-align: center;
-        font-family: 'Roboto','sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
-      }
     </style>
   </head>
   <body>
     <div id="button">
-      <input id="submit" type="button" value="619 SOUTH 19TH STREET, 35233">
-    </div>
-    <div id="button1">
-        <input id="submit1" type="button" value="5777 EAST MAYO BOULEVARD, 85054">
+      <input id="submit" type="button" value="Go Go Power Rangers">
     </div>
     <div id="map"></div>
     <script>
       var distance;
       var userLoc;
       var locations = ["Kansas", "Alabama", "Toronto", "New York", "New Jersey", "Kentucky"];
+      var prevInfoBox;
+      var prevMarker;
+      var arMarker;
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 5,
+          zoom: 4,
           center: {lat: 35, lng: -96}
         });
         infoWindow = new google.maps.InfoWindow;
@@ -82,19 +71,16 @@
         }
 
         document.getElementById('submit').addEventListener('click', function() {
-          distanceMatriX('Dundee', 'Glasgow', map);
+          distanceMatriX('New York', map);
           
-        });
-        document.getElementById('submit1').addEventListener('click', function() {
-          distanceMatriX('Dundee', 'Glasgow', map);
         });
       }
 
-      function distanceMatriX(origin, destinationA, resultsMap) {
+      function distanceMatriX(origin, resultsMap) {
         var service = new google.maps.DistanceMatrixService;
         service.getDistanceMatrix({
           origins: [origin],
-          destinations: [destinationA],
+          destinations: locations,
           travelMode: 'DRIVING',
         }, function(response, status) {
           if (status !== 'OK') {
@@ -110,7 +96,7 @@
                 var duration = element.duration.text;
                 var from = origins[i];
                 var to = destinations[j];
-                geocodeAddress(resultsMap, 1)
+                geocodeAddress(resultsMap, 1, distance, origin, locations[j])
               }
             }
             //distance = element.distance.text;
@@ -126,35 +112,40 @@
         infoWindow.open(map);
       }
 
-      function geocodeAddress(resultsMap, num) {
+      function geocodeAddress(resultsMap, num, distance, origin, address) {
         var geocoder = new google.maps.Geocoder();
-        var marker;
-        if (num == 1){
-            var address = document.getElementById('submit').value;}
-        else{
-            var address = document.getElementById('submit1').value;}
         geocoder.geocode({'address': address}, function(results, status) {
           if (status === 'OK') {
-            resultsMap.setCenter(results[0].geometry.location);
-            addMarker(resultsMap, address, results);
+            //resultsMap.setCenter(results[0].geometry.location);
+            addMarker(resultsMap, origin, distance, address, results);
           } else {
             alert('Geocode was not successful for the following reason: ' + status);
           }
         });
       }
 
-      function addMarker(resultsMap, address, results){
+      function addMarker(resultsMap, origin, dist,address, results){
+        var hospitalName = 'UNIVERSITY OF ALABAMA HOSPITAL'
+        var cost = '$273,737.23'
         var contentString = '<div id="content">'+
         '<div id="siteNotice">'+
         '</div>'+
-        '<h1 id="firstHeading" class="firstHeading">Hospital</h1>'+
+        '<h1 id="firstHeading" class="firstHeading">' +hospitalName+ '</h1>'+
         '<div id="bodyContent">'+
-        '<p><b>Hospital</b>,'+ distance +' also referred to as <b>Help me building</b> Average Cost: $273,737.23 </p>'+
+        '<p><b>' + hospitalName  + '</b>, is '+ dist +' away from '+ origin+' it is located at '+ address +'  Average Cost: '+ cost +' </p>'+
         '</div>'+
         '</div>';
 
-        marker = new google.maps.Marker({
+        /*var icons = {
+          url: "https://cdn0.iconfinder.com/data/icons/healthcare-medicine/512/hospital_location-512.png", // url
+          scaledSize: new google.maps.Size(35, 35), // scaled size
+          origin: new google.maps.Point(0,0), // origin
+          anchor: new google.maps.Point(0, 0) // anchor
+        };*/
+        var marker = new google.maps.Marker({
               map: resultsMap,
+              animation: google.maps.Animation.DROP,
+              //icon: icons,
               position: results[0].geometry.location,
               title: address 
             });
@@ -163,9 +154,18 @@
             content: contentString
         });
         marker.addListener('click', function() {
-        infowindow.open(map, marker);
-        arMarker.push(marker);
+          if (prevInfoBox){
+            prevInfoBox.close();
+            prevMarker.setAnimation(null);
+
+          }
+          prevInfoBox = infowindow;
+          prevMarker = marker
+          infowindow.open(map, marker);
+          marker.setAnimation(google.maps.Animation.BOUNCE);
         });
+        infoBoxes.push(infowindow);
+        arMarker.push(marker);
       }
         
 
