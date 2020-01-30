@@ -2,12 +2,21 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Database search</title>
 </head>
 <body>
 
-<form method="post" action="index.jsp">
-     <input type="submit" id="btn1" name="btn1"/>
+<form method="POST" action="index.jsp">
+  <fieldset>
+    <legend>Search by:</legend>
+    <input type="radio" name="search" value="code"> Code<br>
+  	<input type="radio" name="search" value="procedure"> Procedure/Condition<br>
+	<br>
+    Input <input type="text" name="input"><br><br>
+    Min price <input type="text" name="minprice"><br><br>
+    Max price <input type="text" name="maxprice"><br><br>
+    <input type="submit" value="Submit">
+  </fieldset>
 </form>
 
 </body>

@@ -21,7 +21,7 @@ pom.xml should be configured already
 		</head>
 		<body>
 
-			<h1>Search by DRG Code</h1>
+			<h1>Search results</h1>
 			<table border="1">
 
 			<tr>
@@ -45,25 +45,33 @@ pom.xml should be configured already
 	* User input will be integrated from the form on the front end
 	*/
 	
-	String id = "code"; // User selects this with radio buttons on the front-end and is either "code" or "procedure"
-	String input = "281"; // This input will either be a DRG code or procedure/condition input from the user form 
-	int inputMinPrice = 0; // This will be set at 0 as deafult and changed if the user selects a price range
-	int inputMaxPrice = 99999999; // This will be set at 99999999 as deafult and changed if the user selects a price range
+	String id = request.getParameter("search");		// User selects this with radio buttons on the front-end and is either "code" or "procedure"
+	String input = request.getParameter("input");	// This input will either be a DRG code or procedure/condition input from the user form 
+	
+	String inputMinPrice = request.getParameter("minprice"); // Gets minimum price from the user input
+	 	if (inputMinPrice.isEmpty()) { // If no min price is selected the default value is set
+		 	inputMinPrice = "0";
+	 	}
+	 	
+	String inputMaxPrice = request.getParameter("maxprice"); // Gets maximum price from the user input
+	 	if (inputMaxPrice.isEmpty()) { // If no max price is selected the default value is set
+		 	inputMaxPrice = "99999999";
+	 	}
 	
 	List<Query> output = null;
-	Database test = new Database();
+	Database db = new Database();
 	
-	if (id == "code") { // If the radio button selected is search by code
+	if (id.equals("code")) { // If the radio button selected is search by code
 		
-		output = test.executeDBQuery("SELECT * FROM medichecker WHERE Definition LIKE '" + input + "%' AND AverageTotalPayments > " + inputMinPrice + " AND AverageTotalPayments < " + inputMaxPrice + " ORDER BY AverageTotalPayments ASC;");
+		output = db.executeDBQuery("SELECT * FROM medichecker WHERE Definition LIKE '" + input + "%' AND AverageTotalPayments > " + inputMinPrice + " AND AverageTotalPayments < " + inputMaxPrice + " ORDER BY AverageTotalPayments ASC;");
 	}
 	
-	else if (id == "procedure") { // If the radio button selected is search by procedure/condition
+	if (id.equals("procedure")) { // If the radio button selected is search by procedure/condition
 		
-		output = test.executeDBQuery("SELECT * FROM medichecker WHERE Definition LIKE '%" + input + "%' AND AverageTotalPayments > " + inputMinPrice + " AND AverageTotalPayments < " + inputMaxPrice + " ORDER BY AverageTotalPayments ASC;");
+		output = db.executeDBQuery("SELECT * FROM medichecker WHERE Definition LIKE '%" + input + "%' AND AverageTotalPayments > " + inputMinPrice + " AND AverageTotalPayments < " + inputMaxPrice + " ORDER BY AverageTotalPayments ASC;");
 	}
 	
-  		for (Query obj : output)
+  	for (Query obj : output)
   		{
    		 %>
     		<tr>
