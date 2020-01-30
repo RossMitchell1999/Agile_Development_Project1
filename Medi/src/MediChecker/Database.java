@@ -11,7 +11,6 @@ public class Database {
 	{
 		Connection conn = null;
 		   try{
-			   // Class.forName("com.mysql.jdbc.Driver");
 			   Class.forName("com.mysql.cj.jdbc.Driver");
 			   
 		      System.out.println("Connecting to a selected database...");
@@ -43,7 +42,7 @@ public class Database {
 		try
 		{
 			Statement statement = conn.createStatement();
-			ResultSet resultSet = statement.executeQuery("select * from medichecker where ProviderName = 'UNIVERSITY OF ALABAMA HOSPITAL'");
+			ResultSet resultSet = statement.executeQuery(query);
 			while (resultSet.next())
 			{
 				String definition = resultSet.getString("Definition");
@@ -57,8 +56,6 @@ public class Database {
 				float avgCoveredCharges = resultSet.getFloat("AverageCoveredCharges");
 				float avgTotalPayments = resultSet.getFloat("AverageTotalPayments");
 				float avgMedicarePayments = resultSet.getFloat("AverageCMedicarePayments");
-				String string = resultSet.getString("Definition");
-				System.out.println(string);
 				
 				Query querytemp = new Query(definition, providerID, providerName, providerAddress, providerCity, providerState, providerZip, hospitalReferral, avgCoveredCharges, avgTotalPayments, avgMedicarePayments);
 				queryOutput.add(querytemp);
@@ -84,11 +81,6 @@ public class Database {
 //		}
 		return queryOutput;
 	}
-
-	public static void main(String[] args) {
-		Database db = new Database();
-		db.executeDBQuery("select * from medichecker where ProviderName = 'UNIVERSITY OF ALABAMA HOSPITAL'");
-	}	
 }
 
 
