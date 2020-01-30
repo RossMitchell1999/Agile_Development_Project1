@@ -71,17 +71,48 @@
                     </thead>
                     <tbody>
                     
-                    <%
-						Database db = new Database();          			         			
-						List<Query> output = db.executeDBQuery("SELECT DISTINCT ProviderName FROM medicalprovidercharges.medichecker");
-  						
-						for (Query obj : output)
-  						{
-    						%> <tr>
-    						<td> <% out.println(obj.getProviderName()); %> </td>
-    						</tr>
-  						<% } %>
-						
+                <tr>
+				<td>Definition</td>
+				<td>Provider Name</td>
+				<td>Average Total Payments ($)</td>
+			</tr>
+
+	<%
+	
+	/*
+	* This function needs to be optimized and refactored
+	* User input will be integrated from the form on the front end
+	*/
+	
+	String id = request.getParameter("gridRadios");		// User selects this with radio buttons on the front-end and is either "code" or "procedure"
+	String input = request.getParameter("inputSearchCriteria");	// This input will either be a DRG code or procedure/condition input from the user form 
+	
+	List<Query> output = null;
+	Database db = new Database();
+	
+	if (id.equals("code")) { // If the radio button selected is search by code
+		
+		output = db.executeDBQuery("SELECT Definition, ProviderName, AverageTotalPayments FROM medichecker WHERE Definition LIKE '" + input + "%';");
+	}
+	
+	if (id.equals("procedure")) { // If the radio button selected is search by procedure/condition
+		
+		output = db.executeDBQuery("SELECT Definition, ProviderName, AverageTotalPayments FROM medichecker WHERE Definition LIKE '%" + input + "%';");
+	}
+	
+  	for (Query obj : output)
+  		{
+   		 %>
+    		<tr>
+    			<td><%=obj.getDefinition()%></td>
+    			<td><%=obj.getProviderName()%></td>
+    			<td><%=obj.getAvgTotalPayments()%></td>
+    		</tr>
+
+   		<% 
+  		}
+		%>
+
                     </tbody>
                   </table>
             </div>

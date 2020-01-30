@@ -42,26 +42,26 @@ public class Database {
 		try
 		{
 			Statement statement = conn.createStatement();
-			ResultSet resultSet = statement.executeQuery("select distinct ProviderName from MediChecker");
+			ResultSet resultSet = statement.executeQuery(query);
 			while (resultSet.next())
 			{
-//				String definition = resultSet.getString("Definition");
-//				int providerID = resultSet.getInt("ProviderID");
-//				String providerName = resultSet.getString("ProviderName");
-//				String providerAddress = resultSet.getString("ProviderAddress");
-//				String providerCity = resultSet.getString("ProviderCity");
-//				String providerState = resultSet.getString("ProviderState");
-//				String providerZip = resultSet.getString("ProviderZipCode");
-//				String hospitalReferral = resultSet.getString("HospitalReferral");
-//				float avgCoveredCharges = resultSet.getFloat("AverageCoveredCharges");
-//				float avgTotalPayments = resultSet.getFloat("AverageTotalPayments");
-//				float avgMedicarePayments = resultSet.getFloat("AverageCMedicarePayments");
+				String definition = resultSet.getString("Definition");
+				//int providerID = resultSet.getInt("ProviderID");
+				String providerName = resultSet.getString("ProviderName");
+				//String providerAddress = resultSet.getString("ProviderAddress");
+				//String providerCity = resultSet.getString("ProviderCity");
+				//String providerState = resultSet.getString("ProviderState");
+				//String providerZip = resultSet.getString("ProviderZipCode");
+				//String hospitalReferral = resultSet.getString("HospitalReferral");
+				//float avgCoveredCharges = resultSet.getFloat("AverageCoveredCharges");
+				float avgTotalPayments = resultSet.getFloat("AverageTotalPayments");
+				//float avgMedicarePayments = resultSet.getFloat("AverageCMedicarePayments");
 				
-				String providerName=resultSet.getString("ProviderName");
+				//String providerName=resultSet.getString("ProviderName");
 				//System.out.println(definition);
 				//System.out.println(providerName);
 				//counter++;
-				Query querytemp = new Query(providerName);
+				Query querytemp = new Query(definition, providerName, avgTotalPayments);
 				//Query querytemp = new Query(definition, providerID, providerName, providerAddress, providerCity, providerState, providerZip, hospitalReferral, avgCoveredCharges, avgTotalPayments, avgMedicarePayments);
 				queryOutput.add(querytemp);
 			}
