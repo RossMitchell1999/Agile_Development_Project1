@@ -48,27 +48,17 @@ pom.xml should be configured already
 	String id = request.getParameter("search");		// User selects this with radio buttons on the front-end and is either "code" or "procedure"
 	String input = request.getParameter("input");	// This input will either be a DRG code or procedure/condition input from the user form 
 	
-	String inputMinPrice = request.getParameter("minprice"); // Gets minimum price from the user input
-	 	if (inputMinPrice.isEmpty()) { // If no min price is selected the default value is set
-		 	inputMinPrice = "0";
-	 	}
-	 	
-	String inputMaxPrice = request.getParameter("maxprice"); // Gets maximum price from the user input
-	 	if (inputMaxPrice.isEmpty()) { // If no max price is selected the default value is set
-		 	inputMaxPrice = "99999999";
-	 	}
-	
 	List<Query> output = null;
 	Database db = new Database();
 	
 	if (id.equals("code")) { // If the radio button selected is search by code
 		
-		output = db.executeDBQuery("SELECT * FROM medichecker WHERE Definition LIKE '" + input + "%' AND AverageTotalPayments > " + inputMinPrice + " AND AverageTotalPayments < " + inputMaxPrice + " ORDER BY AverageTotalPayments ASC;");
+		output = db.executeDBQuery("SELECT * FROM medichecker WHERE Definition LIKE '" + input + "%';");
 	}
 	
 	if (id.equals("procedure")) { // If the radio button selected is search by procedure/condition
 		
-		output = db.executeDBQuery("SELECT * FROM medichecker WHERE Definition LIKE '%" + input + "%' AND AverageTotalPayments > " + inputMinPrice + " AND AverageTotalPayments < " + inputMaxPrice + " ORDER BY AverageTotalPayments ASC;");
+		output = db.executeDBQuery("SELECT * FROM medichecker WHERE Definition LIKE '%" + input + "%';");
 	}
 	
   	for (Query obj : output)
