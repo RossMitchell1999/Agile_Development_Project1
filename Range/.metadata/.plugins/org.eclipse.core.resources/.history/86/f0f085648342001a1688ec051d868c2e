@@ -1,0 +1,25 @@
+import java.util.ArrayList;
+import java.util.List;
+
+// Java range
+public class sort{
+
+    private double start;
+    private double end;
+    private double step;
+
+    public sort(double start,double end, double step) {
+        this.start = start;
+        this.end = end;
+        this.step = step;
+    }
+
+    public List<Double> asList(){
+        List<Double> ret = new ArrayList<Double>();
+        for(double i = this.start;i <= this.end; i += this.step){
+            ret.add(i);
+        }
+
+        return ret;
+    }   
+}

@@ -1,0 +1,31 @@
+// A sample Java program to sort an array 
+// in descending order using Arrays.sort(). 
+import java.util.ArrayList;
+import java.util.List;
+public class De extends ArrayList<Integer> {
+
+ public static void main(String[] args){
+     De arr = new De();
+
+     //Addition of elements in ArrayList
+     arr.add("1");
+     arr.add("2");
+     arr.add("3");
+     arr.add("4");
+     arr.add("5");
+     arr.add("6");
+
+     System.out.println("Original ArrayList Content: "+arr);
+
+    
+
+     //Sublist to List
+     List<Integer> list = arr.subList(1, 6);
+     System.out.println("SubList stored in List: "+list);
+  }
+
+private void add(String string) {
+	// TODO Auto-generated method stub
+	
+}
+}
