@@ -1,0 +1,94 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+
+	public class HelloWorld {
+		
+
+		public static void main(String[] args) {
+		
+			Connection conn = null;
+		    try 
+		    {
+		    	//local variables using the MS JDBC connector as I'm hooking into SQL Server 
+		    	String dbURL = "agileserver.mysql.database.azure.com";
+		        String user = "AgileTeam9@agileserver";
+		        String pass = "Password1234";
+		        conn = DriverManager.getConnection(dbURL, user, pass);
+		        if (conn != null) {
+		        
+		        
+		        
+		        
+		        //Our connection is valid and not null
+		            /*  This code can be used for debugging
+		            	DatabaseMetaData dm = (DatabaseMetaData) conn.getMetaData();
+		                System.out.println("Driver name: " + dm.getDriverName());
+		                System.out.println("Driver version: " + dm.getDriverVersion());
+		                System.out.println("Product name: " + dm.getDatabaseProductName());
+		                System.out.println("Product version: " + dm.getDatabaseProductVersion());
+		             */
+		        	
+		            
+	
+		        	String query = ("SELECT * FROM MedicalProviderCharges"); 
+		              
+		        	// Set prepared statement. 
+		        	PreparedStatement ps = conn.prepareStatement(query); 
+		               
+	                // Execute SQL.
+	                ResultSet rs = ps.executeQuery();  
+                
+	                //Table with the results
+	                ResultSetMetaData rsmd = rs.getMetaData();
+	                
+	            
+	                //Total number of columns 
+	                int numberOfColumns = rsmd.getColumnCount();
+	            
+	                //For each row in our result set, print out the column name as part of the table
+	                for (int i = 1; i <= numberOfColumns; i++) {
+	                  if (i > 1) System.out.print(",  ");
+	                  String columnName = rsmd.getColumnName(i);
+	                  System.out.print(columnName);
+	                }
+	                
+	                System.out.println("");
+	             
+	                while (rs.next()) {
+	                  for (int i = 1; i <= numberOfColumns; i++) {
+	                    if (i > 1) System.out.print(",  ");
+	                    String columnValue = rs.getString(i);
+	                    System.out.print(columnValue);
+	                  }
+	                  System.out.println("");  
+	                }
+	            		                
+	            }
+		 
+	        } 
+
+		    catch (SQLException ex) {
+		            ex.printStackTrace();
+		    
+		    } 
+		    finally {
+		    
+		    	try 
+		    	{
+	                if (conn != null && !conn.isClosed()) 
+	                {
+	                    conn.close();
+	                }
+	            }
+		    	catch (SQLException ex) 
+		    	{
+	                ex.printStackTrace();
+	            }
+	        }		
+		}
+	}
+	
