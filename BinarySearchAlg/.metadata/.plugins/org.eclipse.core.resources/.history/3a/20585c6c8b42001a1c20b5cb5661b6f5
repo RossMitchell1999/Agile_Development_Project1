@@ -1,0 +1,63 @@
+package d;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+ 
+public class why {
+     
+    public static void main(String a[]){
+         
+        List<brand> list = new ArrayList<brand>();
+        list.add(new brand("Nokia",3000));
+        list.add(new brand("Samsung",6000));
+        list.add(new brand("Sony",2000));
+        list.add(new brand("OnePlus",2400));
+        list.add(new brand("Motorola",4000));
+        list.add(new brand("Iphone",5000));
+        Collections.sort(list,new MyPriceComp());
+        System.out.println("Sorted list entries: ");
+        for(brand e:list){
+            System.out.println(e);
+        }
+    }
+}
+ 
+class MyPriceComp implements Comparator<brand>{
+ 
+    @Override
+    public int compare(brand e1, brand e2) {
+        if(e1.getPrice() > e2.getPrice()){
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+}
+ 
+class brand{
+     
+    private String name;
+    private int price;
+     
+    public brand(String n, int s){
+        this.name = n;
+        this.price = s;
+    }
+     
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public int getPrice() {
+        return price;
+    }
+    public void setPrice(int salary) {
+        this.price = salary;
+    }
+    public String toString(){
+        return "Name: "+this.name+"-- Price: "+this.price;
+    }
+}
