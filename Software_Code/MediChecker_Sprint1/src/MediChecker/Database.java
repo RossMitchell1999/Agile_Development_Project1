@@ -21,10 +21,10 @@ public class Database {
 		      conn = DriverManager.getConnection(url, user, pass); 
 		      if (conn != null)
 		      {
-		    	  System.out.println("hisdfhuy Connected");
+		    	  System.out.println("Connected");
 		      }
 		      
-		      System.out.println("Connected database successfully...asdfjksadfhkjsdlafhkdjlsfhsadklfh");
+		      System.out.println("Connected database successfully...");
 		   }
 		   catch(Exception e)
 		   {
