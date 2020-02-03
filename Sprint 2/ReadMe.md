@@ -21,6 +21,7 @@ Review of Sprint 1 feedback including meeting and video feedback. Feedback to ta
 - setting up more advanced github features such as issues and projects
 - going over and updating sprint backlog during scrum meetings
 We also updated the Sprint 2 backlog based on feedback we got during the meeting.
+
 Plan for today:
 - Sprint 1 retrospective
 - Start on assigned tasks
