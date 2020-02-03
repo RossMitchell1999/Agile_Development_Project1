@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Medicio | Bootstrap Medical Template</title>
+    <title>MediChecker</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -87,17 +87,27 @@
 	String id = request.getParameter("gridRadios");		// User selects this with radio buttons on the front-end and is either "code" or "procedure"
 	String input = request.getParameter("inputSearchCriteria");	// This input will either be a DRG code or procedure/condition input from the user form 
 	
+    String inputMinPrice = request.getParameter("inputMinPrice"); // Gets minimum price from the user input
+    	if (inputMinPrice.isEmpty()) { // If no min price is selected the default value is set
+    		inputMinPrice = "0";
+        }
+            	 	
+    String inputMaxPrice = request.getParameter("inputMaxPrice"); // Gets maximum price from the user input
+        if (inputMaxPrice.isEmpty()) { // If no max price is selected the default value is set
+        	inputMaxPrice = "99999999";
+        }
+ 
 	List<Query> output = null;
 	Database db = new Database();
 	
 	if (id.equals("code")) { // If the radio button selected is search by code
 		
-		output = db.executeDBQuery("SELECT Definition, ProviderName, AverageTotalPayments FROM medichecker WHERE Definition LIKE '" + input + "%';");
+		output = db.executeDBQuery("SELECT * FROM medichecker WHERE Definition LIKE '" + input + "%' AND AverageTotalPayments > " + inputMinPrice + " AND AverageTotalPayments < " + inputMaxPrice + " ORDER BY AverageTotalPayments ASC;");
 	}
 	
 	if (id.equals("procedure")) { // If the radio button selected is search by procedure/condition
 		
-		output = db.executeDBQuery("SELECT Definition, ProviderName, AverageTotalPayments FROM medichecker WHERE Definition LIKE '%" + input + "%';");
+		output = db.executeDBQuery("SELECT * FROM medichecker WHERE Definition LIKE '%" + input + "%' AND AverageTotalPayments > " + inputMinPrice + " AND AverageTotalPayments < " + inputMaxPrice + " ORDER BY AverageTotalPayments ASC;");
 	}
 	
   	for (Query obj : output)
@@ -117,14 +127,14 @@
                   </table>
             </div>
             <div class="col-lg-6">
-                <style>
+               	<style>
                     /* Always set the map height explicitly to define the size of the div
                      * element that contains the map. */
                      #map {
                       height: 600px;  /* The height is 400 pixels */
                       width: 100%;  /* The width is the width of the web page */
                      }
-                </style>
+               	</style>
                 <div id="map"></div>
                 <script>
                     var distance;
@@ -263,13 +273,15 @@
 
     </section>
     <!-- <script>alert("thisworks!");</script> -->
-
+    
+	<footer>
       <div class="copyrights">       
         <div class="container text-center py-4">
           <p class="mb-0 text-muted">&copy; 2019, UoD - AC31007 Agile Software Engineering Team 9 Project. Template designed by <a href="https://bootstraptemple.com">Bootstrap Temple</a>.</p>
         </div>
       </div>
     </footer>
+    
     <!-- JavaScript files-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

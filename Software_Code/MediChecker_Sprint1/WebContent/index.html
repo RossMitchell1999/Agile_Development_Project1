@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Medicio | Bootstrap Medical Template</title>
+    <title>MediChecker</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -48,23 +48,23 @@
     <form action="result.jsp" method="post">
     <section id="form-section">
         <div class="col-lg-12">
-          <p class="h2 text-shadow">Search for prices here:</p><br>
+          <p class="h2 text-shadow">Search for prices here</p><br>
         
         <fieldset class="form-group">
           <div class="row" style="margin-left: 2px;">
-            <legend class="col-form-label col-sm-2 pt-0"><b>Search By...</b></legend>
+            <legend class="col-form-label col-sm-2 pt-0"><b>Search By</b></legend>
             <div class="col-sm-10">
               <div class="form-check">
-                <input class="form-check-input" id="code" type="radio" name="gridRadios" value="code" checked="">
-                <label class="form-check-label" for="code">Code</label>
+                <input class="form-check-input" id="code" type="radio" name="gridRadios" value="code" checked>
+                <label class="form-check-label" for="code">Procedure Code</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" id="procedure" type="radio" name="gridRadios" value="procedure">
+                <label class="form-check-label" for="procedure">Procedure Name</label>
               </div>
               <div class="form-check">
                 <input class="form-check-input" id="location" type="radio" name="gridRadios" value="location">
                 <label class="form-check-label" for="location">Location</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" id="procedure" type="radio" name="gridRadios" value="procedure">
-                <label class="form-check-label" for="procedure">Condition/Procedure</label>
               </div>
               <div class="form-check">
                 <input class="form-check-input" id="description" type="radio" name="gridRadios" value="description">
@@ -85,15 +85,15 @@
           <legend class="col-form-label col-sm-5 pt-0"><b>Price Range</b></legend>
           <div class="form-group row">
             <div class="col-lg-6">
-            <label class="col-sm-2 col-form-label" for="inputMinPrice">Minimum Price $</label>
+            <label class="col-sm-2 col-form-label" for="inputMinPrice">Minimum Price</label>
             <div class="col-sm-10">
-              <input class="form-control" id="inputMinPrice" type="number" placeholder="$2,000" min="0" max="600000">
+              <input class="form-control" name="inputMinPrice" id="inputMinPrice" type="number" placeholder="$2,000" min="0" max="600000">
             </div>
             </div>
           <div class="col-lg-6">
-            <label class="col-sm-2 col-form-label" for="inputMaxPrice">Maximum Price $</label>
+            <label class="col-sm-2 col-form-label" for="inputMaxPrice">Maximum Price</label>
             <div class="col-sm-10">
-              <input class="form-control" id="inputMaxPrice" type="number" placeholder="$600,000" min="0" max="600000">
+              <input class="form-control" name="inputMaxPrice" id="inputMaxPrice" type="number" placeholder="$600,000" min="0" max="600000">
             </div>
           </div>
           </div>
@@ -103,35 +103,46 @@
         <legend class="col-form-label col-sm-5 pt-0"><b>Distance Range</b></legend>
         <div class="form-group row">
         <div class="col-lg-6">
-          <label class="col-sm-2 col-form-label" for="inputMinDist">Minimum Distance (km)</label>
+          <label class="col-sm-2 col-form-label" for="inputMaxDist">Maximum Distance</label>
           <div class="col-sm-10">
-            <input class="form-control" id="inputMinDist" type="number" placeholder="1km" min="0">
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <label class="col-sm-2 col-form-label" for="inputMaxDist">Maximum Distance (km)</label>
-          <div class="col-sm-10">
-            <input class="form-control" id="inputMaxDist" type="number" placeholder="1000km" min="0">
+            <input class="form-control" id="inputMaxDist" type="number" placeholder="1000 km" min="0">
           </div>
         </div>
         </div>
       </fieldset>
+      
+              <fieldset class="form-group">
+          <div class="row" style="margin-left: 2px;">
+            <legend class="col-form-label col-sm-2 pt-0"><b>Sort by</b></legend>
+            <div class="col-sm-10">
+              <div class="form-check">
+                <input class="form-check-input" id="price" type="radio" name="SortBy" value="price" checked>
+                <label class="form-check-label" for="price">Price</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" id="distance" type="radio" name="SortBy" value="distance">
+                <label class="form-check-label" for="distance">Distance</label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
     
       <!-- <button class="btn btn-primary" type="submit" onclick="location.href='result.html'">Submit</button> -->
       <input class="btn btn-primary" type="submit" onclick="return validateCode()">
 
       </div>
-    </form>
     </section>
+   </form>
  
     <!-- <script>alert("thisworks!");</script> -->
-
+	<footer>
       <div class="copyrights">       
         <div class="container text-center py-4">
           <p class="mb-0 text-muted">&copy; 2019, UoD - AC31007 Agile Software Engineering Team 9 Project. Template designed by <a href="https://bootstraptemple.com">Bootstrap Temple</a>.</p>
         </div>
       </div>
     </footer>
+    
     <!-- JavaScript files-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
