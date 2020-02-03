@@ -96,18 +96,33 @@
         if (inputMaxPrice.isEmpty()) { // If no max price is selected the default value is set
         	inputMaxPrice = "99999999";
         }
+    
+    String sort = request.getParameter("SortBy");
+    String sortSql = null;
+    
+    if (sort.equals("price")) {
+    	sortSql = "ORDER BY AverageTotalPayments ASC";
+    }
+    
+    if (sort.equals("distance")) {
+    	sortSql = " ";
+    }
+    
+    if (sort.equals("ranking")) {
+    	sortSql = " ";
+    }
  
 	List<Query> output = null;
 	Database db = new Database();
 	
 	if (id.equals("code")) { // If the radio button selected is search by code
 		
-		output = db.executeDBQuery("SELECT * FROM medichecker WHERE Definition LIKE '" + input + "%' AND AverageTotalPayments > " + inputMinPrice + " AND AverageTotalPayments < " + inputMaxPrice + " ORDER BY AverageTotalPayments ASC;");
+		output = db.executeDBQuery("SELECT * FROM medichecker WHERE Definition LIKE '" + input + "%' AND AverageTotalPayments > " + inputMinPrice + " AND AverageTotalPayments < " + inputMaxPrice + " " + sortSql + ";");
 	}
 	
 	if (id.equals("procedure")) { // If the radio button selected is search by procedure/condition
 		
-		output = db.executeDBQuery("SELECT * FROM medichecker WHERE Definition LIKE '%" + input + "%' AND AverageTotalPayments > " + inputMinPrice + " AND AverageTotalPayments < " + inputMaxPrice + " ORDER BY AverageTotalPayments ASC;");
+		output = db.executeDBQuery("SELECT * FROM medichecker WHERE Definition LIKE '%" + input + "%' AND AverageTotalPayments > " + inputMinPrice + " AND AverageTotalPayments < " + inputMaxPrice + " " + sortSql + ";");
 	}
 	
   	for (Query obj : output)
