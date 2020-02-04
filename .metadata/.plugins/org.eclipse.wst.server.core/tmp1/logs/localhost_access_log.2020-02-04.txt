@@ -1,0 +1,9 @@
+127.0.0.1 - - [04/Feb/2020:10:18:59 +0000] "GET / HTTP/1.1" 404 705
+0:0:0:0:0:0:0:1 - - [04/Feb/2020:10:19:00 +0000] "GET /MediChecker/index.html HTTP/1.1" 200 6952
+0:0:0:0:0:0:0:1 - - [04/Feb/2020:10:19:00 +0000] "GET /MediChecker/css/style.default.css HTTP/1.1" 200 62005
+0:0:0:0:0:0:0:1 - - [04/Feb/2020:10:19:00 +0000] "GET /MediChecker/css/custom.css HTTP/1.1" 200 677
+0:0:0:0:0:0:0:1 - - [04/Feb/2020:10:19:00 +0000] "GET /MediChecker/vendor/jquery/jquery.min.js HTTP/1.1" 200 88147
+0:0:0:0:0:0:0:1 - - [04/Feb/2020:10:19:00 +0000] "GET /MediChecker/vendor/bootstrap/js/bootstrap.bundle.min.js HTTP/1.1" 200 78641
+0:0:0:0:0:0:0:1 - - [04/Feb/2020:10:19:00 +0000] "GET /MediChecker/js/front.js HTTP/1.1" 200 233
+0:0:0:0:0:0:0:1 - - [04/Feb/2020:10:19:00 +0000] "GET /MediChecker/js/custom.js HTTP/1.1" 200 1052
+0:0:0:0:0:0:0:1 - - [04/Feb/2020:10:24:14 +0000] "GET /MediChecker/index.html HTTP/1.1" 404 682
