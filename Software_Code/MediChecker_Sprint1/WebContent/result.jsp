@@ -58,6 +58,14 @@
       </div>
     </section>
 
+    <script>
+      var Defi = [];
+      var Provi = [];
+      var AvCost = [];
+      var locations = [];
+      var zipCode = [];
+    </script>
+
     <!-- Form Section-->
     <section id="form-section">
         <div class="col-lg-12">
@@ -123,18 +131,36 @@
 	if (id.equals("procedure")) { // If the radio button selected is search by procedure/condition
 		
 		output = db.executeDBQuery("SELECT * FROM medichecker WHERE Definition LIKE '%" + input + "%' AND AverageTotalPayments > " + inputMinPrice + " AND AverageTotalPayments < " + inputMaxPrice + " " + sortSql + ";");
-	}
-	
+  }
+  
+	int i = 0;
   	for (Query obj : output)
   		{
+        if(i < 10){
+          String def = obj.getDefinition();
+          String prov = obj.getProviderName();
+          float avCost = obj.getAvgTotalPayments();
+          String Addr = obj.getProviderAddress();
+          String Zip = obj.getProviderZip();
    		 %>
     		<tr>
     			<td><%=obj.getDefinition()%></td>
     			<td><%=obj.getProviderName()%></td>
     			<td><%=obj.getAvgTotalPayments()%></td>
-    		</tr>
+        </tr>
+        <script>
+          alert("<%= Addr%>");
+          alert("<%= def%>");
+          Defi.push("<%= def%>");
+          Provi.push("<%= prov%>");
+          AcCost.push("<%= avCost%>");
+          locations.push("<%= Addr%>");
+          zipCode.push("<%= Zip%>");
+        </script>
+      <%        
+      }
+      i++;
 
-   		<% 
   		}
 		%>
 
@@ -154,7 +180,7 @@
                 <script>
                     var distance;
                     var userLoc;
-                    var locations = ["Kansas", "Alabama", "Toronto", "New York", "New Jersey", "Kentucky"];
+                    //var locations = ["Kansas", "Alabama", "Toronto", "New York", "New Jersey", "Kentucky"];
                     var prevInfoBox;
                     var prevMarker;
                     var arMarker;
