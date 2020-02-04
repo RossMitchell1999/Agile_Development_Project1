@@ -28,7 +28,7 @@ Plan for today:
 ---
 
 
-## Day [1] - Scrum Meeting summary
+## Day [2] - Scrum Meeting summary
 The Scrum Master for this meeting was **Kamila Gorska**
 
 ### Members Present:
