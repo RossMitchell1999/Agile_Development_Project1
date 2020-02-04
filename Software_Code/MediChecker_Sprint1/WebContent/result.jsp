@@ -1,5 +1,7 @@
 <%@page import="java.util.List" %>
 <%@page import="java.util.ArrayList" %>
+<%@page import="java.util.Vector" %>
+<%@page import="java.util.Iterator" %>
 
 <%@page import="MediChecker.Database" %>
 <%@page import="MediChecker.Query" %>
@@ -97,6 +99,7 @@
         	inputMaxPrice = "99999999";
         }
     
+    
     String sort = request.getParameter("SortBy");
     String sortSql = null;
     
@@ -112,17 +115,60 @@
     	sortSql = " ";
     }
  
-	List<Query> output = null;
+	
+    List<Query> output = null;
 	Database db = new Database();
 	
 	if (id.equals("code")) { // If the radio button selected is search by code
 		
 		output = db.executeDBQuery("SELECT * FROM medichecker WHERE Definition LIKE '" + input + "%' AND AverageTotalPayments > " + inputMinPrice + " AND AverageTotalPayments < " + inputMaxPrice + " " + sortSql + ";");
-	}
-	
-	if (id.equals("procedure")) { // If the radio button selected is search by procedure/condition
+	}	
+	else if (id.equals("procedure")) { // If the radio button selected is search by procedure/condition
 		
 		output = db.executeDBQuery("SELECT * FROM medichecker WHERE Definition LIKE '%" + input + "%' AND AverageTotalPayments > " + inputMinPrice + " AND AverageTotalPayments < " + inputMaxPrice + " " + sortSql + ";");
+	}
+	else if (id.equals("description")) {
+		
+		Vector splitInput = new Vector();
+		String[] splitArray = input.split(" ");
+		
+		for (int i=0; i<splitArray.length; i++)
+		{
+			splitInput.add(splitArray[i]);
+		}
+		
+		String query = "SELECT * FROM medichecker WHERE ";
+		
+/* 		Iterator i = splitInput.iterator();
+		while (i.hasNext()) {
+			System.out.println(i.next());
+			System.out.println(splitInput.lastElement());
+			System.out.println(query);
+			//System.out.println(i);
+		if (i.next() != splitInput.lastElement()) {
+				query += "Definition LIKE '%" + i.next() + "%' OR ";
+			}
+		else {
+				query += "Definition LIKE '%" + i.next() + "%';";
+						//AND AverageTotalPayments > " + inputMinPrice + " AND AverageTotalPayments < " + inputMaxPrice + " " + sortSql + ";";
+			}
+		} */
+		
+		for(int i=0; i<splitInput.size(); i++) {
+			System.out.println(splitInput.get(i));
+			System.out.println(splitInput.lastElement());
+			System.out.println(query);
+			if (splitInput.get(i) != splitInput.lastElement()) {
+				query += "Definition LIKE '%" + splitInput.get(i) + "%' OR ";
+			}
+		else {
+				query += "Definition LIKE '%" + splitInput.get(i) + "%' AND AverageTotalPayments > " + inputMinPrice + " AND AverageTotalPayments < " + inputMaxPrice + " " + sortSql + ";";
+			}
+		}
+		
+		System.out.println(query);
+		output = db.executeDBQuery(query);
+		
 	}
 	
   	for (Query obj : output)
