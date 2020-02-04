@@ -27,3 +27,22 @@ Plan for today:
 - Start on assigned tasks
 ---
 
+
+## Day [2] - Scrum Meeting summary
+The Scrum Master for this meeting was **Kamila Gorska**
+
+### Members Present:
+Kamila, Kayla, Ross, Neja, Stas, Stephen
+
+### Members Not Present:
+n/a
+
+### Apologies:
+n/a
+
+### Summary of Conversation:
+Updated Stephen on the previous day, went through any progress so far and updated sprint backlog to match progress so far.
+
+Plan for today:
+- Continue with assigned tasks
+---
