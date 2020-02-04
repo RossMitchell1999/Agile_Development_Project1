@@ -1,0 +1,43 @@
+/* your styles go here */
+
+/* CODE FROM: https://www.w3schools.com/howto/howto_js_rangeslider.asp */
+
+
+  body {
+      background-color: #212529;
+  }
+
+  #form-section {
+    border-style:solid; 
+    border-width: 5px; 
+    border-radius: 15px; 
+    border-color: #0cb8b6;
+    background-color: #edeeef; 
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 50px;
+  }
+  
+
+  #header h1 {
+      color: #edeeef;
+  }
+
+  #header i {
+      font-size: 3rem; 
+      color: #edeeef;
+  }
+
+  .bg-dark-custom {
+    background-color: #212529;
+  }
+
+  .border-custom {
+      border-color:  #212529;
+  }
+
+  #btn-back {
+    float: right;
+  }
+
+  
