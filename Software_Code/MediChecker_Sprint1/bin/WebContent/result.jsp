@@ -1,7 +1,5 @@
 <%@page import="java.util.List" %>
 <%@page import="java.util.ArrayList" %>
-<%@page import="java.util.Vector" %>
-<%@page import="java.util.Iterator" %>
 
 <%@page import="MediChecker.Database" %>
 <%@page import="MediChecker.Query" %>
@@ -48,14 +46,6 @@
       </nav>
     </div>
     </header>
-    
-    <script>
-      var Defi = [];
-      var Provi = [];
-      var AvCost = [];
-      var locations = [];
-      var zipCode = [];
-    </script>
     
     <!-- Hero Banner-->
     <section class="hero-home bg-cover bg-center" style="background-color: #0cb8b6; height: 250px; width: 100%;">
@@ -107,7 +97,6 @@
         	inputMaxPrice = "99999999";
         }
     
-    
     String sort = request.getParameter("SortBy");
     String sortSql = null;
     
@@ -123,74 +112,29 @@
     	sortSql = " ";
     }
  
-	
-    List<Query> output = null;
+	List<Query> output = null;
 	Database db = new Database();
 	
 	if (id.equals("code")) { // If the radio button selected is search by code
 		
 		output = db.executeDBQuery("SELECT * FROM medichecker WHERE Definition LIKE '" + input + "%' AND AverageTotalPayments > " + inputMinPrice + " AND AverageTotalPayments < " + inputMaxPrice + " " + sortSql + ";");
-	}	
-	else if (id.equals("procedure")) { // If the radio button selected is search by procedure/condition
+	}
+	
+	if (id.equals("procedure")) { // If the radio button selected is search by procedure/condition
 		
 		output = db.executeDBQuery("SELECT * FROM medichecker WHERE Definition LIKE '%" + input + "%' AND AverageTotalPayments > " + inputMinPrice + " AND AverageTotalPayments < " + inputMaxPrice + " " + sortSql + ";");
 	}
-	else if (id.equals("description")) {
-		
-		Vector splitInput = new Vector();
-		String[] splitArray = input.split(" ");
-		
-		for (int i=0; i<splitArray.length; i++)
-		{
-			if (splitArray[i].length() > 2) {
-				splitInput.add(splitArray[i]);
-			}
-		}
-		
-		String query = "SELECT * FROM medichecker WHERE ";
-		
-		for(int i=0; i<splitInput.size(); i++) {
-			System.out.println(splitInput.get(i));
-			System.out.println(splitInput.lastElement());
-			System.out.println(query);
-			if (splitInput.get(i) != splitInput.lastElement()) {
-				query += "Definition LIKE '%" + splitInput.get(i) + "%' OR ";
-			}
-			else {
-				query += "Definition LIKE '%" + splitInput.get(i) + "%' AND AverageTotalPayments > " + inputMinPrice + " AND AverageTotalPayments < " + inputMaxPrice + " " + sortSql + ";";
-			}
-		}
-		
-		System.out.println(query);
-		output = db.executeDBQuery(query);
-		
-	}
 	
-	int i = 0;
   	for (Query obj : output)
   		{
-        if(i < 10){
-          String def = obj.getDefinition();
-          String prov = obj.getProviderName();
-          float avCost = obj.getAvgTotalPayments();
-          String Addr = obj.getProviderAddress() + ", " + obj.getProviderZip();
-          String Zip = obj.getProviderZip();
    		 %>
     		<tr>
     			<td><%=obj.getDefinition()%></td>
     			<td><%=obj.getProviderName()%></td>
     			<td><%=obj.getAvgTotalPayments()%></td>
-        </tr>
-        <script>
-          Defi.push("<%= def%>");
-          Provi.push("<%= prov%>");
-          AcCost.push("<%= avCost%>");
-          locations.push("<%= Addr%>");
-          zipCode.push("<%= Zip%>");
-        </script>
-      <%        
-      }
-      i++;
+    		</tr>
+
+   		<% 
   		}
 		%>
 
@@ -210,7 +154,7 @@
                 <script>
                     var distance;
                     var userLoc;
-                    //var locations = ["Kansas", "Alabama", "Toronto", "New York", "New Jersey", "Kentucky"];
+                    var locations = ["Kansas", "Alabama", "Toronto", "New York", "New Jersey", "Kentucky"];
                     var prevInfoBox;
                     var prevMarker;
                     var arMarker;
@@ -263,7 +207,6 @@
                               var duration = element.duration.text;
                               var from = origins[i];
                               var to = destinations[j];
-                              alert(locations[j]);
                               geocodeAddress(resultsMap, 1, distance, origin, locations[j])
                             }
                           }
