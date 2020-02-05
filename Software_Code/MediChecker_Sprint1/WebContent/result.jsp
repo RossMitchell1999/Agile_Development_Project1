@@ -174,6 +174,7 @@
           String prov = obj.getProviderName();
           float avCost = obj.getAvgTotalPayments();
           String Addr = obj.getProviderAddress() + ", " + obj.getProviderZip();
+          System.out.println(Addr);
           String Zip = obj.getProviderZip();
    		 %>
     		<tr>
@@ -184,7 +185,7 @@
         <script>
           Defi.push("<%= def%>");
           Provi.push("<%= prov%>");
-          AcCost.push("<%= avCost%>");
+          AvCost.push("<%= avCost%>");
           locations.push("<%= Addr%>");
           zipCode.push("<%= Zip%>");
         </script>
@@ -219,7 +220,7 @@
                         zoom: 4,
                         center: {lat: 35, lng: -96}
                       });
-                      infoWindow = new google.maps.InfoWindow;
+                      /*infoWindow = new google.maps.InfoWindow;
               
                       // Try HTML5 geolocation.
                       if (navigator.geolocation) {
@@ -240,11 +241,11 @@
                       } else {
                         // Browser doesn't support Geolocation
                         handleLocationError(false, infoWindow, map.getCenter());
-                      }
+                      }*/
                       distanceMatriX('New York', map);
                     }
                     function distanceMatriX(origin, resultsMap) {
-                      var service = new google.maps.DistanceMatrixService;
+                      /*var service = new google.maps.DistanceMatrixService;
                       service.getDistanceMatrix({
                         origins: [origin],
                         destinations: locations,
@@ -263,13 +264,14 @@
                               var duration = element.duration.text;
                               var from = origins[i];
                               var to = destinations[j];
-                              alert(locations[j]);
-                              geocodeAddress(resultsMap, 1, distance, origin, locations[j])
+                              alert(locations[j]);*/
+                              for (var i = 0; i< locations.length; i++){
+                                geocodeAddress(resultsMap, 10, origin, locations[i], i)
                             }
-                          }
+                          //}
                           //distance = element.distance.text;
-                        }
-                      });
+                        //}
+                      //});
                   }
 
                   function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -280,21 +282,21 @@
                       infoWindow.open(map);
                     }
 
-                    function geocodeAddress(resultsMap, num, distance, origin, address) {
+                    function geocodeAddress(resultsMap, distance, origin, address, num) {
                       var geocoder = new google.maps.Geocoder();
                       geocoder.geocode({'address': address}, function(results, status) {
                         if (status === 'OK') {
                           //resultsMap.setCenter(results[0].geometry.location);
-                          addMarker(resultsMap, origin, distance, address, results);
+                          addMarker(resultsMap, origin, distance, address, results, num);
                         } else {
                           alert('Geocode was not successful for the following reason: ' + status);
                         }
                       });
                     }
 
-                    function addMarker(resultsMap, origin, dist,address, results){
-                      var hospitalName = 'UNIVERSITY OF ALABAMA HOSPITAL'
-                      var cost = '$273,737.23'
+                    function addMarker(resultsMap, origin, dist,address, results, num){
+                      var hospitalName = Provi[num];
+                      var cost = AvCost[num];
                       var contentString = '<div id="content">'+
                       '<div id="siteNotice">'+
                       '</div>'+
