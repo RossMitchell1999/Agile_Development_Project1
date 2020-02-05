@@ -1,0 +1,11 @@
+import org.junit.Test;
+
+import junit.framework.Assert;
+
+public class search {
+	@Test
+	public void TestPasswordLength() {
+		PasswordValidator pv = new PasswordValidator();
+		Assert.assertEquals(true, pv.isValid("Abc123"));
+	}
+	}

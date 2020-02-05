@@ -1,0 +1,10 @@
+import org.junit.Test;
+import static org.junit.Assert.*;
+public class StudentTest {
+ @Test
+ public void testDisplayStudentName() {
+  Student student = new Student();
+  String studentName = student.displayStudentName(“Anshuman”, ”Nain”);
+  assertEquals(“AnshumanNain”, studentName);
+ }
+}
