@@ -49,14 +49,6 @@
     </div>
     </header>
     
-    <script>
-      var Defi = [];
-      var Provi = [];
-      var AvCost = [];
-      var locations = [];
-      var zipCode = [];
-    </script>
-    
     <!-- Hero Banner-->
     <section class="hero-home bg-cover bg-center" style="background-color: #0cb8b6; height: 250px; width: 100%;">
       <div class="container index-forward py-5 mb-5">
@@ -142,12 +134,25 @@
 		
 		for (int i=0; i<splitArray.length; i++)
 		{
-			if (splitArray[i].length() > 2) {
-				splitInput.add(splitArray[i]);
-			}
+			splitInput.add(splitArray[i]);
 		}
 		
 		String query = "SELECT * FROM medichecker WHERE ";
+		
+/* 		Iterator i = splitInput.iterator();
+		while (i.hasNext()) {
+			System.out.println(i.next());
+			System.out.println(splitInput.lastElement());
+			System.out.println(query);
+			//System.out.println(i);
+		if (i.next() != splitInput.lastElement()) {
+				query += "Definition LIKE '%" + i.next() + "%' OR ";
+			}
+		else {
+				query += "Definition LIKE '%" + i.next() + "%';";
+						//AND AverageTotalPayments > " + inputMinPrice + " AND AverageTotalPayments < " + inputMaxPrice + " " + sortSql + ";";
+			}
+		} */
 		
 		for(int i=0; i<splitInput.size(); i++) {
 			System.out.println(splitInput.get(i));
@@ -156,7 +161,7 @@
 			if (splitInput.get(i) != splitInput.lastElement()) {
 				query += "Definition LIKE '%" + splitInput.get(i) + "%' OR ";
 			}
-			else {
+		else {
 				query += "Definition LIKE '%" + splitInput.get(i) + "%' AND AverageTotalPayments > " + inputMinPrice + " AND AverageTotalPayments < " + inputMaxPrice + " " + sortSql + ";";
 			}
 		}
@@ -166,31 +171,16 @@
 		
 	}
 	
-	int i = 0;
   	for (Query obj : output)
   		{
-        if(i < 10){
-          String def = obj.getDefinition();
-          String prov = obj.getProviderName();
-          float avCost = obj.getAvgTotalPayments();
-          String Addr = obj.getProviderAddress() + ", " + obj.getProviderZip();
-          String Zip = obj.getProviderZip();
    		 %>
     		<tr>
     			<td><%=obj.getDefinition()%></td>
     			<td><%=obj.getProviderName()%></td>
     			<td><%=obj.getAvgTotalPayments()%></td>
-        </tr>
-        <script>
-          Defi.push("<%= def%>");
-          Provi.push("<%= prov%>");
-          AcCost.push("<%= avCost%>");
-          locations.push("<%= Addr%>");
-          zipCode.push("<%= Zip%>");
-        </script>
-      <%        
-      }
-      i++;
+    		</tr>
+
+   		<% 
   		}
 		%>
 
@@ -210,7 +200,7 @@
                 <script>
                     var distance;
                     var userLoc;
-                    //var locations = ["Kansas", "Alabama", "Toronto", "New York", "New Jersey", "Kentucky"];
+                    var locations = ["Kansas", "Alabama", "Toronto", "New York", "New Jersey", "Kentucky"];
                     var prevInfoBox;
                     var prevMarker;
                     var arMarker;
@@ -263,7 +253,6 @@
                               var duration = element.duration.text;
                               var from = origins[i];
                               var to = destinations[j];
-                              alert(locations[j]);
                               geocodeAddress(resultsMap, 1, distance, origin, locations[j])
                             }
                           }

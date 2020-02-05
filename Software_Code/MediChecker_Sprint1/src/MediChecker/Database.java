@@ -48,10 +48,10 @@ public class Database {
 				String definition = resultSet.getString("Definition");
 				//int providerID = resultSet.getInt("ProviderID");
 				String providerName = resultSet.getString("ProviderName");
-				//String providerAddress = resultSet.getString("ProviderAddress");
+				String providerAddress = resultSet.getString("ProviderAddress");
 				//String providerCity = resultSet.getString("ProviderCity");
 				//String providerState = resultSet.getString("ProviderState");
-				//String providerZip = resultSet.getString("ProviderZipCode");
+				String providerZip = resultSet.getString("ProviderZipCode");
 				//String hospitalReferral = resultSet.getString("HospitalReferral");
 				//float avgCoveredCharges = resultSet.getFloat("AverageCoveredCharges");
 				float avgTotalPayments = resultSet.getFloat("AverageTotalPayments");
@@ -61,11 +61,12 @@ public class Database {
 				//System.out.println(definition);
 				//System.out.println(providerName);
 				//counter++;
-				Query querytemp = new Query(definition, providerName, avgTotalPayments);
+				Query querytemp = new Query(definition, providerName, avgTotalPayments, providerAddress, providerZip);
 				//Query querytemp = new Query(definition, providerID, providerName, providerAddress, providerCity, providerState, providerZip, hospitalReferral, avgCoveredCharges, avgTotalPayments, avgMedicarePayments);
 				queryOutput.add(querytemp);
 			}
 			//System.out.println(counter);
+			System.out.println("hi");
 //			statement.close();
 //			resultSet.close();
 		}

@@ -15,7 +15,7 @@ public class Query {
 
 	
 	//public Query(String definition, int providerID, String providerName, String providerAddress, String providerCity, String providerState, String providerZip, String hospitalReferral, float avgCoveredCharges, float avgTotalPayments, float avgMedicarePayments)
-	public Query(String definition, String providerName, float avgTotalPayments )
+	public Query(String definition, String providerName, float avgTotalPayments, String providerAddress, String providerZip)
 	{
 		this.definition = definition;
 		this.providerID = providerID;
@@ -30,9 +30,9 @@ public class Query {
 		this.avgMedicarePayments = avgMedicarePayments;
 	}
 	
-	public Query(String providerName)
+	public Query()
 	{
-		this.providerName = providerName;
+		this.providerName = "";
 		this.definition = "";
 		this.providerID = 0;
 		this.providerAddress = "";
