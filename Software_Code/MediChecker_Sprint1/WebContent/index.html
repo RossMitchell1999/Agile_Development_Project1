@@ -53,23 +53,19 @@
         
         <fieldset class="form-group">
           <div class="row" style="margin-left: 2px;">
-            <legend class="col-form-label col-sm-2 pt-0"><b>Search By</b></legend>
+            <legend class="col-form-label col-sm-2 pt-0"><b>Search By Procedure...</b></legend>
             <div class="col-sm-10">
               <div class="form-check">
                 <input class="form-check-input" id="code" type="radio" name="gridRadios" value="code" checked>
-                <label class="form-check-label" for="code">Procedure Code</label>
+                <label class="form-check-label" for="code">Code</label>
               </div>
               <div class="form-check">
                 <input class="form-check-input" id="procedure" type="radio" name="gridRadios" value="procedure">
-                <label class="form-check-label" for="procedure">Procedure Name</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" id="location" type="radio" name="gridRadios" value="location">
-                <label class="form-check-label" for="location">Location</label>
+                <label class="form-check-label" for="procedure">Name</label>
               </div>
               <div class="form-check">
                 <input class="form-check-input" id="description" type="radio" name="gridRadios" value="description">
-                <label class="form-check-label" for="description">Procedure Description</label>
+                <label class="form-check-label" for="description">Description</label>
               </div>
             </div>
           </div>
@@ -104,7 +100,13 @@
         <legend class="col-form-label col-sm-5 pt-0"><b>Distance Range</b></legend>
         <div class="form-group row">
         <div class="col-lg-6">
-          <label class="col-sm-2 col-form-label" for="inputMaxDist">Maximum Distance</label>
+          <label class="col-sm-2 col-form-label" for="inputZip">Enter your ZIP code</label>
+           <div class="col-sm-10">
+            <input class="form-control" id="inputZip" type="text" placeholder="e.g. 72201">
+          </div>
+         </div>
+         <div class="col-lg-6">
+          <label class="col-sm-2 col-form-label" for="inputMaxDist"><br>Maximum Distance</label>
           <div class="col-sm-10">
             <input class="form-control" id="inputMaxDist" type="number" placeholder="1000 km" min="0">
           </div>
