@@ -215,11 +215,35 @@
                     var prevInfoBox;
                     var prevMarker;
                     var arMarker;
+                    var userLoc;
+                    userLoc = "New York";
+                    var userLatLong
                     function initMap() {
                       var map = new google.maps.Map(document.getElementById('map'), {
                         zoom: 4,
                         center: {lat: 35, lng: -96}
                       });
+
+                      var homeCoder = new google.maps.Geocoder();
+                      homeCoder.geocode({'address': userLoc}, function(results, status) {
+                        if (status === 'OK') {
+                          var icons = {
+                            url: "https://cdn1.iconfinder.com/data/icons/real-estate-83/64/x-24-512.png", // url
+                            scaledSize: new google.maps.Size(35, 35), // scaled size
+                          };
+                          var home = new google.maps.Marker({
+                            map: map,
+                            animation: google.maps.Animation.DROP,
+                            icon: icons,
+                            position: results[0].geometry.location,
+                            title: "Your Location" 
+                          });
+                          
+                        } else {
+                          alert('Geocode was not successful for the following reason: ' + status);
+                        }
+                      });
+
                       /*infoWindow = new google.maps.InfoWindow;
               
                       // Try HTML5 geolocation.
@@ -242,7 +266,7 @@
                         // Browser doesn't support Geolocation
                         handleLocationError(false, infoWindow, map.getCenter());
                       }*/
-                      distanceMatriX('New York', map);
+                      distanceMatriX(userLoc, map);
                     }
                     function distanceMatriX(origin, resultsMap) {
                       /*var service = new google.maps.DistanceMatrixService;
@@ -302,20 +326,18 @@
                       '</div>'+
                       '<h1 id="firstHeading" class="firstHeading">' +hospitalName+ '</h1>'+
                       '<div id="bodyContent">'+
-                      '<p><b>' + hospitalName  + '</b>, is '+ dist +' away from '+ origin+' it is located at '+ address +'  Average Cost: '+ cost +' </p>'+
+                      '<p><b>' + hospitalName  + '</b>, is '+ dist +' away from '+ origin+'. The Hospitals address is '+ address +'  The average cost of this treatment at this hospital is $'+ cost +' </p>'+
                       '</div>'+
                       '</div>';
 
-                      /*var icons = {
+                      var icons = {
                         url: "https://cdn0.iconfinder.com/data/icons/healthcare-medicine/512/hospital_location-512.png", // url
                         scaledSize: new google.maps.Size(35, 35), // scaled size
-                        origin: new google.maps.Point(0,0), // origin
-                        anchor: new google.maps.Point(0, 0) // anchor
-                      };*/
+                      };
                       var marker = new google.maps.Marker({
                             map: resultsMap,
                             animation: google.maps.Animation.DROP,
-                            //icon: icons,
+                            icon: icons,
                             position: results[0].geometry.location,
                             title: address 
                           });
