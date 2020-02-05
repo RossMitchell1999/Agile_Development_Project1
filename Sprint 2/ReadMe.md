@@ -46,3 +46,23 @@ Updated Stephen on the previous day, went through any progress so far and update
 Plan for today:
 - Continue with assigned tasks
 ---
+
+
+## Day [3] - Scrum Meeting summary
+The Scrum Master for this meeting was **Kamila Gorska**
+
+### Members Present:
+Kamila, Kayla, Ross, Neja, Stas, Stephen
+
+### Members Not Present:
+n/a
+
+### Apologies:
+n/a
+
+### Summary of Conversation:
+Everyone went over the taska they had completed and what is still to be done. No issues raised.
+
+Plan for today:
+- Continue with assigned tasks
+---
