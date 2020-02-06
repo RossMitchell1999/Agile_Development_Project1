@@ -55,6 +55,16 @@
       var AvCost = [];
       var locations = [];
       var zipCode = [];
+      var distance;
+      var userLoc;
+       //var locations = ["Kansas", "Alabama", "Toronto", "New York", "New Jersey", "Kentucky"];
+      var prevInfoBox;
+      var prevMarker;
+      var arMarker = [];
+      var infoBoxes = [];
+      var userLoc;
+      userLoc = "New York";
+      var userLatLong
     </script>
     
     <!-- Hero Banner-->
@@ -78,14 +88,14 @@
                       <tr>
                         <th>Results</th>
                       </tr>
-                    </thead>
-                    <tbody>
                     
                 <tr>
 				<td>Definition</td>
 				<td>Provider Name</td>
 				<td>Average Total Payments ($)</td>
-			</tr>
+      </tr>
+    </thead>
+    <tbody>
 
 	<%
 	
@@ -193,7 +203,53 @@
       }
       i++;
   		}
-		%>
+    %>
+    <script>
+      //237,238,239
+      //hue 140, sat 14, lum 224
+      //154,159,165
+      //140,14,150
+      var table = document.getElementById("resultsTable");
+      var currSelected;
+      function addRowHandlers() {
+        //var table = document.getElementById("resultsTable");
+        var rows = table.getElementsByTagName("tr");
+        for (i = 2; i < rows.length; i++) {
+          var currentRow = table.rows[i];
+          var createClickHandler = 
+            function(row) 
+              {
+              return function() {
+                if (currSelected){
+                  currSelected.style.backgroundColor = "rgb(237, 238, 239)";
+                }
+                var cell = row.getElementsByTagName("td")[1];
+                row.style.backgroundColor = "rgb(154, 159, 165)";
+                currSelected = row;
+                var id = cell.innerHTML;
+                for (var j = 0; j<arMarker.length; j++){
+                  if (arMarker[j].getTitle() == id){
+                    var infowindow = infoBoxes[j];
+                    if (prevInfoBox){
+                          prevInfoBox.close();
+                          prevMarker.setAnimation(null);
+
+                        }
+                        prevInfoBox = infowindow;
+                        prevMarker = arMarker[j];
+                        infowindow.open(map, arMarker[j]);
+                        arMarker[j].setAnimation(google.maps.Animation.BOUNCE);
+                      }
+                    }
+                  }
+                }
+        currentRow.onclick = createClickHandler(currentRow);
+            }
+          };
+        
+        window.onload = addRowHandlers();
+        
+      </script>
 
                     </tbody>
                   </table>
@@ -209,15 +265,6 @@
                	</style>
                 <div id="map"></div>
                 <script>
-                    var distance;
-                    var userLoc;
-                    //var locations = ["Kansas", "Alabama", "Toronto", "New York", "New Jersey", "Kentucky"];
-                    var prevInfoBox;
-                    var prevMarker;
-                    var arMarker;
-                    var userLoc;
-                    userLoc = "New York";
-                    var userLatLong
                     function initMap() {
                       var map = new google.maps.Map(document.getElementById('map'), {
                         zoom: 4,
@@ -244,6 +291,9 @@
                         }
                       });
 
+                      for (var i = 0; i< locations.length; i++){
+                        geocodeAddress(map, 10, userLoc, locations[i], i)
+                          }
                       /*infoWindow = new google.maps.InfoWindow;
               
                       // Try HTML5 geolocation.
@@ -266,37 +316,7 @@
                         // Browser doesn't support Geolocation
                         handleLocationError(false, infoWindow, map.getCenter());
                       }*/
-                      distanceMatriX(userLoc, map);
                     }
-                    function distanceMatriX(origin, resultsMap) {
-                      /*var service = new google.maps.DistanceMatrixService;
-                      service.getDistanceMatrix({
-                        origins: [origin],
-                        destinations: locations,
-                        travelMode: 'DRIVING',
-                      }, function(response, status) {
-                        if (status !== 'OK') {
-                          alert('Error was: ' + status);
-                        } else {
-                          var origins = response.originAddresses;
-                          var destinations = response.destinationAddresses;
-                          for (var i = 0; i < origins.length; i++) {
-                            var results = response.rows[i].elements;
-                            for (var j = 0; j < results.length; j++) {
-                              var element = results[j];
-                              distance = element.distance.text;
-                              var duration = element.duration.text;
-                              var from = origins[i];
-                              var to = destinations[j];
-                              alert(locations[j]);*/
-                              for (var i = 0; i< locations.length; i++){
-                                geocodeAddress(resultsMap, 10, origin, locations[i], i)
-                            }
-                          //}
-                          //distance = element.distance.text;
-                        //}
-                      //});
-                  }
 
                   function handleLocationError(browserHasGeolocation, infoWindow, pos) {
                       infoWindow.setPosition(pos);
@@ -339,7 +359,7 @@
                             animation: google.maps.Animation.DROP,
                             icon: icons,
                             position: results[0].geometry.location,
-                            title: address 
+                            title: hospitalName 
                           });
 
                       var infowindow = new google.maps.InfoWindow({
@@ -355,10 +375,27 @@
                         prevMarker = marker
                         infowindow.open(map, marker);
                         marker.setAnimation(google.maps.Animation.BOUNCE);
-                      });
-                      infoBoxes.push(infowindow);
-                      arMarker.push(marker);
-                    }
+                        var rows = table.getElementsByTagName("tr");
+                        var currentRow;
+                        var id;
+                        var cell;
+                        if (currSelected){
+                            currSelected.style.backgroundColor = "rgb(237, 238, 239)";
+                          }
+                        for (i = 2; i < rows.length; i++) {
+                          currentRow = table.rows[i];
+                          cell = currentRow.getElementsByTagName("td")[1];
+                          id = cell.innerHTML;  
+                          if (id == marker.getTitle()){
+                            currentRow.style.backgroundColor = "rgb(154, 159, 165)";
+                            currSelected = currentRow;                          
+                          }
+                        }
+
+                              });
+                              infoBoxes.push(infowindow);
+                              arMarker.push(marker);
+                            }
                   </script>
                   <script async defer
                     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYNH-VAjyeKCXX0w90AWoknL2qzTL_5Nk&callback=initMap">
