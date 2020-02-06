@@ -55,6 +55,16 @@
       var AvCost = [];
       var locations = [];
       var zipCode = [];
+      var distance;
+      var userLoc;
+       //var locations = ["Kansas", "Alabama", "Toronto", "New York", "New Jersey", "Kentucky"];
+      var prevInfoBox;
+      var prevMarker;
+      var arMarker = [];
+      var infoBoxes = [];
+      var userLoc;
+      userLoc = "New York";
+      var userLatLong
     </script>
     
     <!-- Hero Banner-->
@@ -78,14 +88,14 @@
                       <tr>
                         <th>Results</th>
                       </tr>
-                    </thead>
-                    <tbody>
                     
                 <tr>
 				<td>Definition</td>
 				<td>Provider Name</td>
 				<td>Average Total Payments ($)</td>
-			</tr>
+      </tr>
+    </thead>
+    <tbody>
 
 	<%
 	
@@ -96,29 +106,28 @@
 	
 	String id = request.getParameter("gridRadios");		// User selects this with radio buttons on the front-end and is either "code" or "procedure"
 	String input = request.getParameter("inputSearchCriteria");	// This input will either be a DRG code or procedure/condition input from the user form 
-    String inputZip = request.getParameter("inputZip");
-            		
-    String inputMinPrice = request.getParameter("inputMinPrice"); 
+  String inputZip = request.getParameter("inputZip");
+  
+    String inputMinPrice = request.getParameter("inputMinPrice"); // Gets minimum price from the user input
     	if (inputMinPrice.isEmpty()) { // If no min price is selected the default value is set
     		inputMinPrice = "0";
         }
             	 	
-    String inputMaxPrice = request.getParameter("inputMaxPrice"); 
+    String inputMaxPrice = request.getParameter("inputMaxPrice"); // Gets maximum price from the user input
         if (inputMaxPrice.isEmpty()) { // If no max price is selected the default value is set
         	inputMaxPrice = "99999999";
         }
     
-        String inputMaxDist = request.getParameter("inputMaxDist"); 
-        int maxDist = 0;
-        if (inputMaxDist.isEmpty()) { // If no max price is selected the default value is set
-        	maxDist = 100;
-        }
-        else
-        {
-        	maxDist = Integer.parseInt(inputMaxDist);
-        }
+    String inputMaxDist = request.getParameter("inputMaxDist"); 
+    int maxDist = 0;
+    if (inputMaxDist.isEmpty()) { // If no max price is selected the default value is set
+      maxDist = 100;
+    }
+    else
+    {
+      maxDist = Integer.parseInt(inputMaxDist);
+    }
         	
-    
     
     String sort = request.getParameter("SortBy");
     String sortSql = null;
@@ -135,10 +144,6 @@
     	sortSql = " ";
     }
  
-    
-    /* Database locationConn = new Database();
-    locationConn.getDistance(inputZip, maxDist); */
-    
 	
     List<Query> output = null;
 	Database db = new Database();
@@ -166,9 +171,9 @@
 		String query = "SELECT * FROM medichecker WHERE ";
 		
 		for(int i=0; i<splitInput.size(); i++) {
-			//System.out.println(splitInput.get(i));
-			//System.out.println(splitInput.lastElement());
-			//System.out.println(query);
+			System.out.println(splitInput.get(i));
+			System.out.println(splitInput.lastElement());
+			System.out.println(query);
 			if (splitInput.get(i) != splitInput.lastElement()) {
 				query += "Definition LIKE '%" + splitInput.get(i) + "%' OR ";
 			}
@@ -178,11 +183,11 @@
 		}
 		
 		//System.out.println(query);
-		output = db.executeDBQuery(query);		
+		output = db.executeDBQuery(query);
+		
 	}
 	
-	int i = 0;
-	int counter = 0;
+  int counter = 0;
   	for (Query obj : output)
   		{
         if(counter < 10){
@@ -191,8 +196,9 @@
           String prov = obj.getProviderName();
           float avCost = obj.getAvgTotalPayments();
           String Addr = obj.getProviderAddress() + ", " + obj.getProviderZip();
+         // System.out.println(Addr);
           String Zip = obj.getProviderZip();
-          
+
           double dist = db.getDistanceValue(inputZip, maxDist, provid);
           if (dist != 0.0)
           {
@@ -213,19 +219,61 @@
 	            locations.push("<%= Addr%>");
 	            zipCode.push("<%= Zip%>");
 	          </script>
-	        <%        
-	        //System.out.println(Addr);
-          } 
-          //System.out.println("Counter="+ counter);
-        
-      }
-        else
-        {
-        	break;
-        }
-      i++;
+	        <%         
+          }
+          else 
+          {
+            break;
+          }
+
   		}
-		%>
+    %>
+    <script>
+      //237,238,239
+      //hue 140, sat 14, lum 224
+      //154,159,165
+      //140,14,150
+      var table = document.getElementById("resultsTable");
+      var currSelected;
+      function addRowHandlers() {
+        //var table = document.getElementById("resultsTable");
+        var rows = table.getElementsByTagName("tr");
+        for (i = 2; i < rows.length; i++) {
+          var currentRow = table.rows[i];
+          var createClickHandler = 
+            function(row) 
+              {
+              return function() {
+                if (currSelected){
+                  currSelected.style.backgroundColor = "rgb(237, 238, 239)";
+                }
+                var cell = row.getElementsByTagName("td")[1];
+                row.style.backgroundColor = "rgb(154, 159, 165)";
+                currSelected = row;
+                var id = cell.innerHTML;
+                for (var j = 0; j<arMarker.length; j++){
+                  if (arMarker[j].getTitle() == id){
+                    var infowindow = infoBoxes[j];
+                    if (prevInfoBox){
+                          prevInfoBox.close();
+                          prevMarker.setAnimation(null);
+
+                        }
+                        prevInfoBox = infowindow;
+                        prevMarker = arMarker[j];
+                        infowindow.open(map, arMarker[j]);
+                        arMarker[j].setAnimation(google.maps.Animation.BOUNCE);
+                      }
+                    }
+                  }
+                }
+        currentRow.onclick = createClickHandler(currentRow);
+            }
+          };
+        
+        window.onload = addRowHandlers();
+        
+      </script>
 
                     </tbody>
                   </table>
@@ -241,19 +289,36 @@
                	</style>
                 <div id="map"></div>
                 <script>
-                    var distance;
-                    var userLoc;
-                    var userZip = inputZip;
-                    //var locations = ["Kansas", "Alabama", "Toronto", "New York", "New Jersey", "Kentucky"];
-                    var prevInfoBox;
-                    var prevMarker;
-                    var arMarker;
                     function initMap() {
                       var map = new google.maps.Map(document.getElementById('map'), {
                         zoom: 4,
                         center: {lat: 35, lng: -96}
                       });
-                      infoWindow = new google.maps.InfoWindow;
+
+                      var homeCoder = new google.maps.Geocoder();
+                      homeCoder.geocode({'address': userLoc}, function(results, status) {
+                        if (status === 'OK') {
+                          var icons = {
+                            url: "https://cdn1.iconfinder.com/data/icons/real-estate-83/64/x-24-512.png", // url
+                            scaledSize: new google.maps.Size(35, 35), // scaled size
+                          };
+                          var home = new google.maps.Marker({
+                            map: map,
+                            animation: google.maps.Animation.DROP,
+                            icon: icons,
+                            position: results[0].geometry.location,
+                            title: "Your Location" 
+                          });
+                          
+                        } else {
+                          alert('Geocode was not successful for the following reason: ' + status);
+                        }
+                      });
+
+                      for (var i = 0; i< locations.length; i++){
+                        geocodeAddress(map, 10, userLoc, locations[i], i)
+                          }
+                      /*infoWindow = new google.maps.InfoWindow;
               
                       // Try HTML5 geolocation.
                       if (navigator.geolocation) {
@@ -274,37 +339,8 @@
                       } else {
                         // Browser doesn't support Geolocation
                         handleLocationError(false, infoWindow, map.getCenter());
-                      }
-                      distanceMatriX(userZip, map);
+                      }*/
                     }
-                    function distanceMatriX(origin, resultsMap) {
-                      var service = new google.maps.DistanceMatrixService;
-                      service.getDistanceMatrix({
-                        origins: [origin],
-                        destinations: locations,
-                        travelMode: 'DRIVING',
-                      }, function(response, status) {
-                        if (status !== 'OK') {
-                          alert('Error was: ' + status);
-                        } else {
-                          var origins = response.originAddresses;
-                          var destinations = response.destinationAddresses;
-                          for (var i = 0; i < origins.length; i++) {
-                            var results = response.rows[i].elements;
-                            for (var j = 0; j < results.length; j++) {
-                              var element = results[j];
-                              distance = element.distance.text;
-                              var duration = element.duration.text;
-                              var from = origins[i];
-                              var to = destinations[j];
-                              alert(locations[j]);
-                              geocodeAddress(resultsMap, 1, distance, origin, locations[j])
-                            }
-                          }
-                          //distance = element.distance.text;
-                        }
-                      });
-                  }
 
                   function handleLocationError(browserHasGeolocation, infoWindow, pos) {
                       infoWindow.setPosition(pos);
@@ -314,42 +350,40 @@
                       infoWindow.open(map);
                     }
 
-                    function geocodeAddress(resultsMap, num, distance, origin, address) {
+                    function geocodeAddress(resultsMap, distance, origin, address, num) {
                       var geocoder = new google.maps.Geocoder();
                       geocoder.geocode({'address': address}, function(results, status) {
                         if (status === 'OK') {
                           //resultsMap.setCenter(results[0].geometry.location);
-                          addMarker(resultsMap, origin, distance, address, results);
+                          addMarker(resultsMap, origin, distance, address, results, num);
                         } else {
                           alert('Geocode was not successful for the following reason: ' + status);
                         }
                       });
                     }
 
-                    function addMarker(resultsMap, origin, dist,address, results){
-                      var hospitalName = 'UNIVERSITY OF ALABAMA HOSPITAL'
-                      var cost = '$273,737.23'
+                    function addMarker(resultsMap, origin, dist,address, results, num){
+                      var hospitalName = Provi[num];
+                      var cost = AvCost[num];
                       var contentString = '<div id="content">'+
                       '<div id="siteNotice">'+
                       '</div>'+
                       '<h1 id="firstHeading" class="firstHeading">' +hospitalName+ '</h1>'+
                       '<div id="bodyContent">'+
-                      '<p><b>' + hospitalName  + '</b>, is '+ dist +' away from '+ origin+' it is located at '+ address +'  Average Cost: '+ cost +' </p>'+
+                      '<p><b>' + hospitalName  + '</b>, is '+ dist +' away from '+ origin+'. The Hospitals address is '+ address +'  The average cost of this treatment at this hospital is $'+ cost +' </p>'+
                       '</div>'+
                       '</div>';
 
-                      /*var icons = {
+                      var icons = {
                         url: "https://cdn0.iconfinder.com/data/icons/healthcare-medicine/512/hospital_location-512.png", // url
                         scaledSize: new google.maps.Size(35, 35), // scaled size
-                        origin: new google.maps.Point(0,0), // origin
-                        anchor: new google.maps.Point(0, 0) // anchor
-                      };*/
+                      };
                       var marker = new google.maps.Marker({
                             map: resultsMap,
                             animation: google.maps.Animation.DROP,
-                            //icon: icons,
+                            icon: icons,
                             position: results[0].geometry.location,
-                            title: address 
+                            title: hospitalName 
                           });
 
                       var infowindow = new google.maps.InfoWindow({
@@ -365,10 +399,27 @@
                         prevMarker = marker
                         infowindow.open(map, marker);
                         marker.setAnimation(google.maps.Animation.BOUNCE);
-                      });
-                      infoBoxes.push(infowindow);
-                      arMarker.push(marker);
-                    }
+                        var rows = table.getElementsByTagName("tr");
+                        var currentRow;
+                        var id;
+                        var cell;
+                        if (currSelected){
+                            currSelected.style.backgroundColor = "rgb(237, 238, 239)";
+                          }
+                        for (i = 2; i < rows.length; i++) {
+                          currentRow = table.rows[i];
+                          cell = currentRow.getElementsByTagName("td")[1];
+                          id = cell.innerHTML;  
+                          if (id == marker.getTitle()){
+                            currentRow.style.backgroundColor = "rgb(154, 159, 165)";
+                            currSelected = currentRow;                          
+                          }
+                        }
+
+                              });
+                              infoBoxes.push(infowindow);
+                              arMarker.push(marker);
+                            }
                   </script>
                   <script async defer
                     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYNH-VAjyeKCXX0w90AWoknL2qzTL_5Nk&callback=initMap">
