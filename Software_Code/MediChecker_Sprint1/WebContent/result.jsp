@@ -106,7 +106,8 @@
 	
 	String id = request.getParameter("gridRadios");		// User selects this with radio buttons on the front-end and is either "code" or "procedure"
 	String input = request.getParameter("inputSearchCriteria");	// This input will either be a DRG code or procedure/condition input from the user form 
-	
+  String inputZip = request.getParameter("inputZip");
+  
     String inputMinPrice = request.getParameter("inputMinPrice"); // Gets minimum price from the user input
     	if (inputMinPrice.isEmpty()) { // If no min price is selected the default value is set
     		inputMinPrice = "0";
@@ -117,6 +118,16 @@
         	inputMaxPrice = "99999999";
         }
     
+    String inputMaxDist = request.getParameter("inputMaxDist"); 
+    int maxDist = 0;
+    if (inputMaxDist.isEmpty()) { // If no max price is selected the default value is set
+      maxDist = 100;
+    }
+    else
+    {
+      maxDist = Integer.parseInt(inputMaxDist);
+    }
+        	
     
     String sort = request.getParameter("SortBy");
     String sortSql = null;
@@ -171,37 +182,50 @@
 			}
 		}
 		
-		System.out.println(query);
+		//System.out.println(query);
 		output = db.executeDBQuery(query);
 		
 	}
 	
-	int i = 0;
+  int counter = 0;
   	for (Query obj : output)
   		{
-        if(i < 10){
+        if(counter < 10){
           String def = obj.getDefinition();
+          String provid = obj.getProviderID();
           String prov = obj.getProviderName();
           float avCost = obj.getAvgTotalPayments();
           String Addr = obj.getProviderAddress() + ", " + obj.getProviderZip();
-          System.out.println(Addr);
+         // System.out.println(Addr);
           String Zip = obj.getProviderZip();
-   		 %>
-    		<tr>
-    			<td><%=obj.getDefinition()%></td>
-    			<td><%=obj.getProviderName()%></td>
-    			<td><%=obj.getAvgTotalPayments()%></td>
-        </tr>
-        <script>
-          Defi.push("<%= def%>");
-          Provi.push("<%= prov%>");
-          AvCost.push("<%= avCost%>");
-          locations.push("<%= Addr%>");
-          zipCode.push("<%= Zip%>");
-        </script>
-      <%        
-      }
-      i++;
+
+          double dist = db.getDistanceValue(inputZip, maxDist, provid);
+          if (dist != 0.0)
+          {
+        	  obj.setDistance(dist);
+        	  //System.out.println(dist);
+        	  counter++;
+          
+        	  %>
+	      		<tr>
+	      			<td><%=obj.getDefinition()%></td>
+	      			<td><%=obj.getProviderName()%></td>
+	      			<td><%=obj.getAvgTotalPayments()%></td>
+	          </tr>
+	          <script>
+	            Defi.push("<%= def%>");
+	            Provi.push("<%= prov%>");
+	            AcCost.push("<%= avCost%>");
+	            locations.push("<%= Addr%>");
+	            zipCode.push("<%= Zip%>");
+	          </script>
+	        <%         
+          }
+          else 
+          {
+            break;
+          }
+
   		}
     %>
     <script>

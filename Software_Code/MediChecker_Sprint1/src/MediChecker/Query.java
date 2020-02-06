@@ -2,7 +2,7 @@ package MediChecker;
 
 public class Query {
 	String definition = "";
-	int providerID = 0;
+	String providerID = "";
 	String providerName = "";
 	String providerAddress = "";
 	String providerCity = "";
@@ -12,10 +12,11 @@ public class Query {
 	float avgCoveredCharges = 0;
 	float avgTotalPayments = 0;
 	float avgMedicarePayments = 0;
+	double distance = 0.0;
 
 	
 	//public Query(String definition, int providerID, String providerName, String providerAddress, String providerCity, String providerState, String providerZip, String hospitalReferral, float avgCoveredCharges, float avgTotalPayments, float avgMedicarePayments)
-	public Query(String definition, String providerName, float avgTotalPayments, String providerAddress, String providerZip)
+	public Query(String definition, String providerID, String providerName, float avgTotalPayments, String providerAddress, String providerZip)
 	{
 		this.definition = definition;
 		this.providerID = providerID;
@@ -28,13 +29,14 @@ public class Query {
 		this.avgCoveredCharges = avgCoveredCharges;
 		this.avgTotalPayments = avgTotalPayments;
 		this.avgMedicarePayments = avgMedicarePayments;
+		this.distance = distance;
 	}
 	
 	public Query()
 	{
 		this.providerName = "";
 		this.definition = "";
-		this.providerID = 0;
+		this.providerID = "";
 		this.providerAddress = "";
 		this.providerCity = "";
 		this.providerState = "";
@@ -43,6 +45,7 @@ public class Query {
 		this.avgCoveredCharges = 0;
 		this.avgTotalPayments = 0;
 		this.avgMedicarePayments = 0;
+		this.distance = 0.0;
 
 	}
 
@@ -57,12 +60,12 @@ public class Query {
 	}
 
 
-	public int getProviderID() {
+	public String getProviderID() {
 		return providerID;
 	}
 
 
-	public void setProviderID(int providerID) {
+	public void setProviderID(String providerID) {
 		this.providerID = providerID;
 	}
 
@@ -155,6 +158,16 @@ public class Query {
 	public void setAvgMedicarePayments(float avgMedicarePayments) {
 		this.avgMedicarePayments = avgMedicarePayments;
 	}
+	
+	public double getDistance() {
+		return distance;
+	}
+
+
+	public void setDistance(double distance) {
+		this.distance = distance;
+	}
+
 	
 	
 	
