@@ -91,9 +91,7 @@
           <div class="row">
             <div class="col-lg-6">
                 <table class="table table-hover" id="resultsTable">
-
     			<tbody>
-
 	<%
 	
 	/*
@@ -185,6 +183,8 @@
 	
 	int i = 0;
 	int counter = 0;
+	double mileageRate = 0.58;
+
   	for (Query obj : output)
   		{
   		if (counter == 0)
@@ -213,16 +213,21 @@
           //System.out.println(Addr);
           String Zip = obj.getProviderZip();
           double distance = db.getDistanceValue(inputZip, maxDist, provid);
+          int distanceInt =(int)(distance);
+          
+          double ranking = avCost + (mileageRate * distanceInt * 2);
 
           if (distance != 0.0)
           {
-        	  obj.setDistance(distance);
-            System.out.println(distance);
+          
+        	obj.setDistance(distanceInt);
+          System.out.println(distanceInt);
             i++;
    		 %>
     		<tr>
     			<%-- <td><%=//obj.getDefinition()%></td> --%>
     			<td><%=obj.getProviderName()%></td>
+    			<td><%=obj.getDistance()%></td>
     			<td><%=obj.getAvgTotalPayments()%></td>
         </tr>
         <script>

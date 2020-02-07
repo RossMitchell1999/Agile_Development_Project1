@@ -13,6 +13,7 @@ public class Query {
 	float avgTotalPayments = 0;
 	float avgMedicarePayments = 0;
 	double distance = 0.0;
+	double ranking = 0.0;
 
 	
 	//public Query(String definition, int providerID, String providerName, String providerAddress, String providerCity, String providerState, String providerZip, String hospitalReferral, float avgCoveredCharges, float avgTotalPayments, float avgMedicarePayments)
@@ -30,6 +31,7 @@ public class Query {
 		this.avgTotalPayments = avgTotalPayments;
 		this.avgMedicarePayments = avgMedicarePayments;
 		this.distance = distance;
+		this.ranking = ranking;
 	}
 	
 	public Query()
@@ -168,7 +170,13 @@ public class Query {
 		this.distance = distance;
 	}
 
-	
+	public double getRanking() {
+		return ranking;
+	}
+
+	public void setRanking(double ranking) {
+		this.ranking = ranking;
+	}
 	
 	
 }
