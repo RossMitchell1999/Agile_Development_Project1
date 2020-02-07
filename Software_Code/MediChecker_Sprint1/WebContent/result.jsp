@@ -63,6 +63,7 @@
       var AvCost = [];
       var locations = [];
       var zipCode = [];
+      var arDistance = [];
       var distance;
       var userLoc;
        //var locations = ["Kansas", "Alabama", "Toronto", "New York", "New Jersey", "Kentucky"];
@@ -196,9 +197,9 @@
   			</tr>
 			<tr>
 				<!-- <td>Definition</td> -->
-				<td>Provider Name</td>
+				<td>Hospital</td>
 				<td>Distance (mi)</td>
-				<td>Average Total Payments ($)</td>
+				<td>Average Total Payments</td>
 	     	</tr>
   			
   			</thead>
@@ -229,7 +230,7 @@
     			<%-- <td><%=//obj.getDefinition()%></td> --%>
     			<td><%=obj.getProviderName()%></td>
     			<td><%=obj.getDistance()%></td>
-    			<td><%=obj.getAvgTotalPayments()%></td>
+    			<td>$<%=obj.getAvgTotalPayments()%></td>
         </tr>
         <script>
           userLoc = "<%= inputZip%>";
@@ -238,6 +239,7 @@
           AvCost.push("<%= avCost%>");
           locations.push("<%= Addr%>");
           zipCode.push("<%= Zip%>");
+          arDistance.push("<%= distance%>");
         </script>
       <%        
       	}
@@ -336,7 +338,7 @@
                       });
 
                       for (var i = 0; i< locations.length; i++){
-                        geocodeAddress(map, 10, userLoc, locations[i], i)
+                        geocodeAddress(map, userLoc, locations[i], i)
                           }
                       /*infoWindow = new google.maps.InfoWindow;
               
@@ -370,27 +372,29 @@
                       infoWindow.open(map);
                     }
 
-                    function geocodeAddress(resultsMap, distance, origin, address, num) {
+                    function geocodeAddress(resultsMap, origin, address, num) {
                       var geocoder = new google.maps.Geocoder();
                       geocoder.geocode({'address': address}, function(results, status) {
                         if (status === 'OK') {
                           //resultsMap.setCenter(results[0].geometry.location);
-                          addMarker(resultsMap, origin, distance, address, results, num);
+                          addMarker(resultsMap, origin, address, results, num);
                         } else {
                           alert('Geocode was not successful for the following reason: ' + status);
                         }
                       });
                     }
 
-                    function addMarker(resultsMap, origin, dist,address, results, num){
+                    function addMarker(resultsMap, origin, address, results, num){
                       var hospitalName = Provi[num];
                       var cost = AvCost[num];
                       var contentString = '<div id="content">'+
                       '<div id="siteNotice">'+
                       '</div>'+
-                      '<h1 id="firstHeading" class="firstHeading">' +hospitalName+ '</h1>'+
+                      '<h5 id="firstHeading" class="firstHeading">' +hospitalName+ '</h5>'+
                       '<div id="bodyContent">'+
-                      '<p><b>' + hospitalName  + '</b>, is '+ dist +' away from '+ origin+'. The Hospitals address is '+ address +'  The average cost of this treatment at this hospital is $'+ cost +' </p>'+
+                      '<p><b>Distance: ' + Math.round(arDistance[num]) +' miles</b></p>'+
+                      '<p><b>Hospitals Address: '+ address +'</b></p>'+
+                      '<p><b>Average Cost: $'+ cost +'</b></p>'+
                       '</div>'+
                       '</div>';
 
@@ -428,7 +432,7 @@
                           }
                         for (i = 2; i < rows.length; i++) {
                           currentRow = table.rows[i];
-                          cell = currentRow.getElementsByTagName("td")[1];
+                          cell = currentRow.getElementsByTagName("td")[0];
                           id = cell.innerHTML;  
                           if (id == marker.getTitle()){
                             currentRow.style.backgroundColor = "rgb(154, 159, 165)";
