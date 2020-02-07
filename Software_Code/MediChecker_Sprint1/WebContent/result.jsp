@@ -197,6 +197,7 @@
 			<tr>
 				<!-- <td>Definition</td> -->
 				<td>Provider Name</td>
+				<td>Distance (mi)</td>
 				<td>Average Total Payments ($)</td>
 	     	</tr>
   			
