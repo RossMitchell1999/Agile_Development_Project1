@@ -1,0 +1,120 @@
+import org.junit.Assert;
+import org.junit.Test;
+/*=======================================================
+* Class: PriceSearchTests - this is the test implementation against 
+* the PriceSearch Class 
+*/=======================================================
+public class PriceSearchTest{
+
+
+	
+	//Test that a minimum can't be below 0.
+	@Test
+
+	public final void minCannotbeLessThanZeroException() {
+
+		RuntimeException exception = null;
+
+		try {
+
+			PriceSearch.Search("-23,23");
+
+		} catch (RuntimeException e) {
+
+			exception = e;
+
+		}
+
+		Assert.assertNotNull(exception);
+
+		Assert.assertEquals("Minimum Price cannot be less than zero, negatives are not allowed: [-23]", exception.getMessage());
+
+	}
+
+
+	//Test that minimum is less than maximum.
+	@Test
+
+	public final void maxCannotBeLessThanMinExceptionThrown() {
+
+		RuntimeException exception = null;
+
+		try {
+
+			PriceSearch.Search("23,2");
+
+		} catch (RuntimeException e) {
+
+			exception = e;
+
+		}
+
+		Assert.assertNotNull(exception);
+
+		Assert.assertEquals("The Max Value must be larger than the Min value: [23,2]", exception.getMessage());
+
+	}
+
+
+
+	//Test that a maximum can't be above 1,000,000
+	@Test
+
+	public final void maxCannotbeGreaterThan1000000Exception() {
+
+		RuntimeException exception = null;
+
+		try {
+
+			PriceSearch.Search("23,1000001");
+
+		} catch (RuntimeException e) {
+
+			exception = e;
+
+		}
+
+		Assert.assertNotNull(exception);
+
+		Assert.assertEquals("Maximum value allowed is 1,000,000: [1000001]", exception.getMessage());
+
+	}
+
+	//Test with a maximum and minimum price value
+	@Test
+	public final void whenMaxandMinValuesUsedNoExceptionThrown() {
+
+		PriceSearch.Search("0,1000000");
+
+		} 
+
+		Assert.assertTrue(true);
+	}
+
+
+	//Test that default values are used if only one value is entered by the user ($2,000 and $600,000)
+	@Test
+
+	public final void whenNoValuesProvidedDefaultValuesUsedandNoExceptionThrown() {
+
+		PriceSearch.Search();
+
+		} 
+
+		Assert.assertTrue(true);
+	}
+
+
+
+	//Test that minimum is less than maximum.
+	@Test	
+	public final void when2ValidNumbersAreUsedThenNoExceptionIsThrown() {
+
+		PriceSearch.Search("1,2");
+
+		Assert.assertTrue(true);
+
+	}
+}
+
+
