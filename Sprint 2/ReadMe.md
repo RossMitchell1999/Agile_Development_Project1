@@ -61,8 +61,49 @@ n/a
 n/a
 
 ### Summary of Conversation:
-Everyone went over the taska they had completed and what is still to be done. No issues raised.
+Everyone went over the tasks they had completed and what is still to be done. No issues raised.
+
+Plan for today: 
+- Continue with assigned tasks. 
+---
+
+
+
+## Day [4] - Scrum Meeting summary
+The Scrum Master for this meeting was **Kamila Gorska**
+
+### Members Present:
+Kamila, Kayla, Ross, Neja, Stas
+
+### Members Not Present:
+Stephen
+
+### Apologies:
+n/a
+
+### Summary of Conversation:
+Everyone went over the tasks they had completed and what is still to be done. Issues raised in relation to search by location (Kamila and Kayla pair programming) and ranking (Neja) as there was still no location.
 
 Plan for today:
-- Continue with assigned tasks
+- Continue with assigned tasks. Kayla and Kamila continue to work together through location task. Neja to work on accessiblity testing in meantime. 
 ---
+
+## Day [5] - Scrum Meeting summary
+The Scrum Master for this meeting was **Kamila Gorska**
+
+### Members Present:
+Kamila, Kayla, Ross, Neja, Stas
+
+### Members Not Present:
+Stephen
+
+### Apologies:
+n/a
+
+### Summary of Conversation:
+Issue raised with integrating search by location code (Kayla & Kamila) with maps code (Ross). 
+
+Plan for today:
+- Kamila and Ross work together to integrate the desired code. Kayla and Neja to continue to tidy up front end and code. Paperwork to be updated also. 
+---
+
