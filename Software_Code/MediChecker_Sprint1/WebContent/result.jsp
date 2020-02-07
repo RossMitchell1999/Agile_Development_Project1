@@ -91,20 +91,7 @@
           <div class="row">
             <div class="col-lg-6">
                 <table class="table table-hover" id="resultsTable">
-                    <thead>
-                      <tr>
-                        <th>Results</th>
-                      </tr>
-                    
-                <tr>
-				<td>Definition</td>
-				<td>Provider Name</td>
-				<td>Distance (mi)</td>
-				<td>Average Total Payments ($)</td>
-      </tr>
-    </thead>
-    <tbody>
-
+    			<tbody>
 	<%
 	
 	/*
@@ -195,10 +182,28 @@
 	}
 	
 	int i = 0;
+	int counter = 0;
 	double mileageRate = 0.58;
-	
+
   	for (Query obj : output)
   		{
+  		if (counter == 0)
+  		{
+  			%>
+  			<thead>
+  			<tr>
+  			<th>Showing Results For: <%=obj.getDefinition() %></th>
+  			</tr>
+			<tr>
+				<!-- <td>Definition</td> -->
+				<td>Provider Name</td>
+				<td>Average Total Payments ($)</td>
+	     	</tr>
+  			
+  			</thead>
+  			<% 
+  		}
+  		counter++;
         if(i < 10){
           String def = obj.getDefinition();
           String prov = obj.getProviderName();
@@ -207,19 +212,20 @@
           String Addr = obj.getProviderAddress() + ", " + obj.getProviderZip();
           //System.out.println(Addr);
           String Zip = obj.getProviderZip();
-          double dist = db.getDistanceValue(inputZip, maxDist, provid);
-          int distanceInt =(int)(dist);
+          double distance = db.getDistanceValue(inputZip, maxDist, provid);
+          int distanceInt =(int)(distance);
           
           double ranking = avCost + (mileageRate * distanceInt * 2);
 
-          if (dist != 0.0)
+          if (distance != 0.0)
           {
+          
         	obj.setDistance(distanceInt);
-            System.out.println(distanceInt);
+          System.out.println(distanceInt);
             i++;
    		 %>
     		<tr>
-    			<td><%=obj.getDefinition()%></td>
+    			<%-- <td><%=//obj.getDefinition()%></td> --%>
     			<td><%=obj.getProviderName()%></td>
     			<td><%=obj.getDistance()%></td>
     			<td><%=obj.getAvgTotalPayments()%></td>
@@ -233,11 +239,10 @@
           zipCode.push("<%= Zip%>");
         </script>
       <%        
+      	}
       }
-    }
       else{
-        break;
-      
+        break;   
       }
     }
     %>
@@ -261,7 +266,7 @@
                 if (currSelected){
                   currSelected.style.backgroundColor = "rgb(237, 238, 239)";
                 }
-                var cell = row.getElementsByTagName("td")[1];
+                var cell = row.getElementsByTagName("td")[0];
                 row.style.backgroundColor = "rgb(154, 159, 165)";
                 currSelected = row;
                 var id = cell.innerHTML;
