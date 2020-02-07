@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -49,11 +49,10 @@
     <form action="result.jsp" method="post">
     <section id="form-section">
         <div class="col-lg-12">
-          <p class="h2 text-shadow">Search for prices here</p><br>
         
         <fieldset class="form-group">
           <div class="row" style="margin-left: 2px;">
-            <legend class="col-form-label col-sm-2 pt-0"><b>Search By Procedure...</b></legend>
+            <legend class="col-form-label col-sm-2 pt-0 h4 text-shadow"><strong>Search by Procedure</strong></legend>
             <div class="col-sm-10">
               <div class="form-check">
                 <input class="form-check-input" id="code" type="radio" name="gridRadios" value="code" checked>
@@ -72,14 +71,14 @@
         </fieldset>
 
         <div class="form-group row" style="margin-left: 2px;">
-          <label class="col-sm-2 col-form-label" for="inputSearchCriteria"><b>Search</b></label>
+          <label class="col-sm-2 col-form-label" for="inputSearchCriteria"></label>
           <div class="col-sm-10">
             <input class="form-control" name="inputSearchCriteria" id="inputSearchCriteria" type="text" placeholder="e.g. Lung Transplant" required>
           </div>
         </div>
 
         <fieldset class="form-group">
-          <legend class="col-form-label col-sm-5 pt-0"><b>Price Range</b></legend>
+          <legend class="col-form-label col-sm-5 pt-0 h4 text-shadow"><strong>Price Range</strong></legend>
           <div class="form-group row">
             <div class="col-lg-6">
             <label class="col-sm-2 col-form-label" for="inputMinPrice">Minimum Price</label>
@@ -97,9 +96,10 @@
         </fieldset>
 
       <fieldset class="form-group">
-        <legend class="col-form-label col-sm-5 pt-0"><b>Distance Range</b></legend>
+        <legend class="col-form-label col-sm-5 pt-0 h4 text-shadow"><strong>Distance Range</strong></legend>
         <div class="form-group row">
         <div class="col-lg-6">
+
           <label class="col-sm-2 col-form-label" for="inputZip">Enter your ZIP code</label>
            <div class="col-sm-10">
             <input class="form-control" name="inputZip" id="inputZip" type="text" placeholder="e.g. 72201">
@@ -108,7 +108,7 @@
          <div class="col-lg-6">
           <label class="col-sm-2 col-form-label" for="inputMaxDist"><br>Maximum Distance</label>
           <div class="col-sm-10">
-            <input class="form-control" name="inputMaxDist" id="inputMaxDist" type="number" placeholder="Default 2000 km" min="0">
+            <input class="form-control" name="inputMaxDist" id="inputMaxDist" type="number" placeholder="500 mi" min="0">
           </div>
         </div>
         </div>
@@ -116,7 +116,7 @@
       
               <fieldset class="form-group">
           <div class="row" style="margin-left: 2px;">
-            <legend class="col-form-label col-sm-2 pt-0"><b>Sort by</b></legend>
+            <legend class="col-form-label col-sm-2 pt-0 h4 text-shadow"><strong>Sort by</strong></legend>
             <div class="col-sm-10">
               <div class="form-check">
                 <input class="form-check-input" id="price" type="radio" name="SortBy" value="price" checked>
@@ -135,7 +135,7 @@
         </fieldset>
     
       <!-- <button class="btn btn-primary" type="submit" onclick="location.href='result.html'">Submit</button> -->
-      <input class="btn btn-primary" type="submit" onclick="return validateCode()">
+      <input class="btn btn-primary" type="submit" input type="submit" onclick="return validateCode()">
 
       </div>
     </section>
@@ -145,7 +145,7 @@
 	<footer>
       <div class="copyrights">       
         <div class="container text-center py-4">
-          <p class="mb-0 text-muted">&copy; 2019, UoD - AC31007 Agile Software Engineering Team 9 Project. Template designed by <a href="https://bootstraptemple.com">Bootstrap Temple</a>.</p>
+          <p class="mb-0 text-muted">&copy; 2020, UoD - AC31007 Agile Software Engineering Team 9 Project. Template designed by <a href="https://bootstraptemple.com">Bootstrap Temple</a>.</p>
         </div>
       </div>
     </footer>
