@@ -85,6 +85,7 @@ public class Database {
 		return queryOutput;
 	}
 
+
 	/**
 	 * Method to get all distances between the ZIP code entered by the user and the
 	 * ZIP codes for all the hospitals within the range specified
@@ -133,7 +134,7 @@ public class Database {
 			//System.out.println("hi, I got to here :)");
 			if (distance < maxDist)
 			 { 
-				 
+				distance = 0.621 * distance;
 				return distance;
 			 }
 			 else

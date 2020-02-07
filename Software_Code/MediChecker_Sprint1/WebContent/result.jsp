@@ -99,7 +99,9 @@
                 <tr>
 				<td>Definition</td>
 				<td>Provider Name</td>
+				<td>Distance (mi)</td>
 				<td>Average Total Payments ($)</td>
+				<td>Ranking (payment + driving costs)</td>
       </tr>
     </thead>
     <tbody>
@@ -194,6 +196,8 @@
 	}
 	
 	int i = 0;
+	double mileageRate = 0.58;
+	
   	for (Query obj : output)
   		{
         if(i < 10){
@@ -205,17 +209,24 @@
           //System.out.println(Addr);
           String Zip = obj.getProviderZip();
           double dist = db.getDistanceValue(inputZip, maxDist, provid);
+          int distanceInt =(int)(dist);
+          
+          double ranking = avCost + (mileageRate * distanceInt * 2);
+          int rankingInt =(int)(ranking);
 
           if (dist != 0.0)
           {
-        	  obj.setDistance(dist);
-            System.out.println(dist);
+        	obj.setDistance(distanceInt);
+        	obj.setRanking(rankingInt);
+            System.out.println(distanceInt);
             i++;
    		 %>
     		<tr>
     			<td><%=obj.getDefinition()%></td>
     			<td><%=obj.getProviderName()%></td>
+    			<td><%=obj.getDistance()%></td>
     			<td><%=obj.getAvgTotalPayments()%></td>
+    			<td><%=obj.getRanking()%></td>
         </tr>
         <script>
           userLoc = "<%= inputZip%>";
