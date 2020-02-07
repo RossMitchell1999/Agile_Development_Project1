@@ -101,7 +101,6 @@
 				<td>Provider Name</td>
 				<td>Distance (mi)</td>
 				<td>Average Total Payments ($)</td>
-				<td>Ranking (payment + driving costs)</td>
       </tr>
     </thead>
     <tbody>
@@ -212,12 +211,10 @@
           int distanceInt =(int)(dist);
           
           double ranking = avCost + (mileageRate * distanceInt * 2);
-          int rankingInt =(int)(ranking);
 
           if (dist != 0.0)
           {
         	obj.setDistance(distanceInt);
-        	obj.setRanking(rankingInt);
             System.out.println(distanceInt);
             i++;
    		 %>
@@ -226,7 +223,6 @@
     			<td><%=obj.getProviderName()%></td>
     			<td><%=obj.getDistance()%></td>
     			<td><%=obj.getAvgTotalPayments()%></td>
-    			<td><%=obj.getRanking()%></td>
         </tr>
         <script>
           userLoc = "<%= inputZip%>";
